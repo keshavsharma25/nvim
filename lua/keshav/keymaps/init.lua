@@ -56,4 +56,9 @@ function M.telescope()
   end, { desc = '[S]earch [N]eovim files' })
 end
 
+function M.telescope_browse() 
+  -- Keymap to open Telescope File Browser
+  vim.api.nvim_set_keymap('n', '<space>sb', ':Telescope file_browser path=%:p:h select_buffer=true<CR>', { noremap = true, desc = '[S]earch in [B]rowser' })
+end
+
 return M
