@@ -14,6 +14,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
-	spec = 'keshav.plugins',
-	change_detection = { notify = false }
+  spec = 'keshav.plugins',
+  change_detection = { notify = false }
 })
