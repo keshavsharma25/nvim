@@ -61,4 +61,8 @@ function M.telescope_browse()
   vim.api.nvim_set_keymap('n', '<space>sb', ':Telescope file_browser path=%:p:h select_buffer=true<CR>', { noremap = true, desc = '[S]earch in [B]rowser' })
 end
 
+function M.preventMs()
+  vim.api.nvim_set_keymap('n', ',m', ':keeppatterns %s/\\s\\+$\\|\\r$//e<CR>', { silent = true, desc = 'Remove [M]s' })
+end
+
 return M
