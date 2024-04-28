@@ -9,60 +9,187 @@ local allow_remap = { noremap = false, silent = true }
 local M = {}
 
 function M.init()
-  -- No higlight
-  keymap(n_v, '<leader>h', '<Cmd>noh<CR>', {desc = 'Remove [H]ighlights', noremap = allow_remap['noremap'], silent = allow_remap['silent']})
+    -- No higlight
+    keymap(n_v, '<leader>h', '<Cmd>noh<CR>', {
+        desc = 'Remove [H]ighlights',
+        noremap = allow_remap['noremap'],
+        silent = allow_remap['silent'],
+    })
 
-  -- Go in Normal mode
-  keymap(i, 'jk', '<Esc>', default_settings)
+    -- Go in Normal mode
+    keymap(i, 'jk', '<Esc>', default_settings)
 
-  -- Diagnostic keymaps
-  vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
-  vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
-  vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
-  vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+    -- Diagnostic keymaps
+    keymap(
+        n,
+        '[d',
+        vim.diagnostic.goto_prev,
+        { desc = 'Go to previous [D]iagnostic message' }
+    )
+    keymap(
+        n,
+        ']d',
+        vim.diagnostic.goto_next,
+        { desc = 'Go to next [D]iagnostic message' }
+    )
+    keymap(
+        n,
+        '<leader>e',
+        vim.diagnostic.open_float,
+        { desc = 'Show diagnostic [E]rror messages' }
+    )
+    keymap(
+        n,
+        '<leader>q',
+        vim.diagnostic.setloclist,
+        { desc = 'Open diagnostic [Q]uickfix list' }
+    )
+
+    -- Go to Parent Dir
+    keymap(n, '-', '<CMD>:E<CR>', { desc = 'Go to Parent Directory' })
 end
 
 function M.telescope()
-  local builtin = require 'telescope.builtin'
+    local builtin = require('telescope.builtin')
 
-  vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
-  vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-  vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
-  vim.keymap.set('n', '<leader>si', builtin.git_files, { desc = '[S]earch [I]n Git' })
-  vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
-  vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
-  vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
-  vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
-  vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
-  vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
-  vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+    keymap(n, '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
+    keymap(n, '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
+    keymap(n, '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
+    keymap(n, '<leader>si', builtin.git_files, { desc = '[S]earch [I]n Git' })
+    keymap(
+        n,
+        '<leader>ss',
+        builtin.builtin,
+        { desc = '[S]earch [S]elect Telescope' }
+    )
+    keymap(
+        n,
+        '<leader>sw',
+        builtin.grep_string,
+        { desc = '[S]earch current [W]ord' }
+    )
+    keymap(n, '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
+    keymap(
+        n,
+        '<leader>sd',
+        builtin.diagnostics,
+        { desc = '[S]earch [D]iagnostics' }
+    )
+    keymap(n, '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
+    keymap(
+        n,
+        '<leader>s.',
+        builtin.oldfiles,
+        { desc = '[S]earch Recent Files ("." for repeat)' }
+    )
+    keymap(
+        n,
+        '<leader><leader>',
+        builtin.buffers,
+        { desc = '[ ] Find existing buffers' }
+    )
 
-  vim.keymap.set('n', '<leader>/', function()
-    builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-      winblend = 10,
-      previewer = false,
-    })
-  end, { desc = '[/] Fuzzily search in current buffer' })
+    keymap(n, '<leader>/', function()
+        builtin.current_buffer_fuzzy_find(
+            require('telescope.themes').get_dropdown({
+                winblend = 10,
+                previewer = false,
+            })
+        )
+    end, { desc = '[/] Fuzzily search in current buffer' })
 
-  vim.keymap.set('n', '<leader>s/', function()
-    builtin.live_grep {
-      grep_open_files = true,
-      prompt_title = 'Live Grep in Open Files',
-    }
-  end, { desc = '[S]earch [/] in Open Files' })
+    keymap(n, '<leader>s/', function()
+        builtin.live_grep({
+            grep_open_files = true,
+            prompt_title = 'Live Grep in Open Files',
+        })
+    end, { desc = '[S]earch [/] in Open Files' })
 
-  vim.keymap.set('n', '<leader>sn', function()
-    builtin.find_files { cwd = vim.fn.stdpath 'config' }
-  end, { desc = '[S]earch [N]eovim files' })
+    keymap(n, '<leader>sn', function()
+        builtin.find_files({ cwd = vim.fn.stdpath('config') })
+    end, { desc = '[S]earch [N]eovim files' })
+
+    keymap(n, '<leader>sW', function()
+        local word = vim.fn.expand('<cWORD>')
+        builtin.grep_string({ search = word })
+    end, { desc = '[S]earch current [W]ord(no spaces)' })
 end
 
-function M.telescope_browse() 
-  -- Keymap to open Telescope File Browser
-  vim.api.nvim_set_keymap('n', '<space>sb', ':Telescope file_browser path=%:p:h select_buffer=true<CR>', { noremap = true, desc = '[S]earch in [B]rowser' })
+function M.telescope_browse()
+    -- Keymap to open Telescope File Browser
+    keymap(
+        n,
+        '<space>sb',
+        ':Telescope file_browser path=%:p:h select_buffer=true<CR>',
+        { noremap = true, desc = '[S]earch in [B]rowser' }
+    )
+end
+
+function M.lsp(e)
+    -- LSP Definition, Hover, etc..
+    local opts = { buffer = e.buf }
+
+    keymap(n, 'gd', function()
+        vim.lsp.buf.definition()
+    end, { desc = '[G]oto [D]efinition', buffer = opts['buffer'] })
+
+    keymap(n, 'gD', function()
+        vim.lsp.buf.declaration()
+    end, { desc = '[G]oto [D]eclaration', buffer = opts['buffer'] })
+
+    keymap(n, 'gr', function()
+        vim.lsp.buf.references()
+    end, { desc = '[G]oto [R]eferences', buffer = opts['buffer'] })
+
+    keymap(n, 'K', function()
+        vim.lsp.buf.hover()
+    end, { desc = 'Hover', buffer = opts['buffer'] })
+
+    keymap(n, '<leader>dw', function()
+        vim.lsp.buf.workspace_symbol()
+    end, {
+        desc = '[D]iagnostics: [W]orkspace [S]ymbol',
+        buffer = opts['buffer'],
+    })
+
+    keymap(n, '<leader>dh', function()
+        vim.diagnostic.open_float()
+    end, { desc = 'Hover', buffer = opts['buffer'] })
+
+    keymap(n, '<leader>ca', function()
+        vim.lsp.buf.code_action()
+    end, { desc = '[D]iagnostics: [C]ode [A]ction', buffer = opts['buffer'] })
+
+    keymap(n, '<leader>rn', function()
+        vim.lsp.buf.rename()
+    end, { desc = '[D]iagnostics: [R]e[n]ame', buffer = opts['buffer'] })
+
+    vim.keymap.set('i', '<C-h>', function()
+        vim.lsp.buf.signature_help()
+    end, opts)
+
+    keymap(n, '[d', function()
+        vim.diagnostic.goto_next()
+    end, { desc = 'Next([) Diagnostics', buffer = opts['buffer'] })
+
+    keymap(n, ']d', function()
+        vim.diagnostic.goto_prev()
+    end, { desc = 'Previous(]) Diagnostics', buffer = opts['buffer'] })
 end
 
 function M.preventMs()
-  vim.api.nvim_set_keymap('n', ',m', ':keeppatterns %s/\\s\\+$\\|\\r$//e<CR>', { silent = true, desc = 'Remove [M]s' })
+    keymap(
+        n,
+        ',m',
+        ':keeppatterns %s/\\s\\+$\\|\\r$//e<CR>',
+        { silent = default_settings['silent'], desc = 'Remove [M]s' }
+    )
+end
+
+function M.trouble()
+    keymap('n', '<leader>tt', function()
+        require('trouble').toggle()
+    end, { desc = '[T]oggle [T]rouble' })
 end
 
 return M
