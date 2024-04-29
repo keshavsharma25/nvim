@@ -7,7 +7,7 @@ return {
             transparent_bg = true,
             telescope = {
                 -- Available styles: `classic`, `flat`.
-                styles = 'classic',
+                styles = 'flat',
             },
             ts_context = {
                 -- Enables dark background for treesitter-context window
