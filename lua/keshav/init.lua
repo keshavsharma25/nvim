@@ -1,5 +1,6 @@
 require('keshav.options')
 require('keshav.lazyload')
+require('keshav.sway')
 
 local K = require('keshav.keymaps')
 
