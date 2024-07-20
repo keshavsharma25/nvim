@@ -4,13 +4,11 @@ return {
     config = function()
         require('which-key').setup()
 
-        require('which-key').register({
-            ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-            ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-            ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-            ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-            ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
-            ['<leader>h'] = { name = 'no [H]ighlight', _ = 'which_key_ignore' },
+        require('which-key').add({
+            { '<leader>l', group = 'LSP' },
+            { '<leader>s', group = 'Telescope' },
+            { '<leader>t', group = 'Trouble' },
+            { '<leader>g', group = 'LazyGit' },
         })
     end,
 }
