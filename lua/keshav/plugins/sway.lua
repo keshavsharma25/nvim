@@ -1,0 +1,3 @@
+return {
+    'FuelLabs/sway.vim',
+}
