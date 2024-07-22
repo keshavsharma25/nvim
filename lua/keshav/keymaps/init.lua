@@ -228,4 +228,14 @@ function M.harpoon()
     end, { desc = 'Harpoon: Replace at 4' })
 end
 
+function M.autoSession()
+    local sesh_lens = require('auto-session.session-lens')
+    keyset(
+        n,
+        '<leader>sl',
+        sesh_lens.search_session,
+        { desc = 'Session Lens', noremap = true }
+    )
+end
+
 return M
