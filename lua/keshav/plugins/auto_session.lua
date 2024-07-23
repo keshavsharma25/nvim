@@ -11,6 +11,10 @@ return {
                     '/',
                     '~/code',
                 },
+                auto_session_use_git_branch = true,
+                auto_save_enabled = true,
+                args_allow_single_directory = true,
+                bypass_session_save_file_types = { 'netrw' },
             })
 
             require('keshav.keymaps').autoSession()
