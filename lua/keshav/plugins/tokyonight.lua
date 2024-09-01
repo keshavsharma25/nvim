@@ -1,11 +1,10 @@
 return {
     'folke/tokyonight.nvim',
-    lazy = true,
-    -- lazy = false,
-    -- priority = 1000,
+    lazy = false,
+    priority = 1000,
     config = function()
         require('tokyonight').setup({
-            style = 'night',
+            style = 'moon',
             light_style = 'day',
             transparent = true,
             terminal_colors = true,
@@ -18,13 +17,13 @@ return {
                 floats = 'dark',
             },
             sidebars = { 'qf', 'help' },
-            day_brightness = 0.3,
+            day_brightness = 0.2,
             hide_inactive_statusline = false,
             dim_inactive = false,
             lualine_bold = false,
         })
 
         vim.cmd.hi('Comment gui=none')
-        vim.cmd.colorscheme('tokyonight-night')
+        vim.cmd.colorscheme('tokyonight-moon')
     end,
 }
