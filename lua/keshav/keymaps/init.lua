@@ -1,6 +1,7 @@
 local n, i, v, t = 'n', 'i', 'v', 't'
 local ex_t = { n, i, v }
 local n_v = { n, v }
+local n_t = { n, t }
 
 local keyset = vim.keymap.set
 local default_settings = { noremap = true, silent = true }
