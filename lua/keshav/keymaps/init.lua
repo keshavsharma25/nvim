@@ -239,4 +239,13 @@ function M.autoSession()
     )
 end
 
+function M.mtoc()
+    keyset(
+        n,
+        '<leader>mt',
+        '<CMD>:Mtoc<CR>',
+        { desc = 'Markdown: Table of Contents' }
+    )
+end
+
 return M
