@@ -47,7 +47,7 @@ function M.init()
     )
 
     -- Go to Parent Dir
-    keyset(n, '-', '<CMD>:E<CR>', { desc = 'Go to Parent Directory' })
+    keyset(n, '-', '<CMD>:Explore<CR>', { desc = 'Go to Parent Directory' })
 end
 
 function M.telescope()
