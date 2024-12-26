@@ -248,4 +248,13 @@ function M.mtoc()
     )
 end
 
+function M.outline()
+    keyset(
+        n,
+        '<leader>ol',
+        '<CMD>Outline<CR>',
+        { desc = '[O]ut[l]ine: Toggle', noremap = true }
+    )
+end
+
 return M
