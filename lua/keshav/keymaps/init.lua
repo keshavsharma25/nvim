@@ -187,12 +187,6 @@ function M.preventMs()
     )
 end
 
-function M.trouble()
-    keyset(n, '<leader>tt', function()
-        require('trouble').toggle()
-    end, { desc = '[T]oggle [T]rouble' })
-end
-
 function M.harpoon()
     local harpoon = require('harpoon')
 
