@@ -6,6 +6,7 @@ local K = require('keshav.keymaps')
 
 K.init()
 K.preventMs()
+K.markdown()
 
 local keshavGroup = vim.api.nvim_create_augroup('Keshav', { clear = true })
 

@@ -21,30 +21,6 @@ function M.init()
     keyset(i, 'jk', '<Esc>', default_settings)
 
     -- Diagnostic keysets
-    keyset(
-        n,
-        '[d',
-        vim.diagnostic.goto_prev,
-        { desc = 'Go to previous [D]iagnostic message' }
-    )
-    keyset(
-        n,
-        ']d',
-        vim.diagnostic.goto_next,
-        { desc = 'Go to next [D]iagnostic message' }
-    )
-    keyset(
-        n,
-        '<leader>e',
-        vim.diagnostic.open_float,
-        { desc = 'Show diagnostic [E]rror messages' }
-    )
-    keyset(
-        n,
-        '<leader>q',
-        vim.diagnostic.setloclist,
-        { desc = 'Open diagnostic [Q]uickfix list' }
-    )
 
     -- Go to Parent Dir
     keyset(n, '-', '<CMD>:Explore<CR>', { desc = 'Go to Parent Directory' })
@@ -138,6 +114,10 @@ function M.lsp(e)
         vim.lsp.buf.declaration()
     end, { desc = '[G]oto [D]eclaration', buffer = opts['buffer'] })
 
+    keyset(n, 'gi', function()
+        vim.lsp.buf.implementation()
+    end, { desc = '[G]oto [I]mplementation', buffer = opts['buffer'] })
+
     keyset(n, 'gr', function()
         vim.lsp.buf.references()
     end, { desc = '[G]oto [R]eferences', buffer = opts['buffer'] })
@@ -145,6 +125,10 @@ function M.lsp(e)
     keyset(n, 'K', function()
         vim.lsp.buf.hover()
     end, { desc = 'Hover', buffer = opts['buffer'] })
+
+    keyset('i', '<C-k>', function()
+        vim.lsp.buf.signature_help()
+    end, opts)
 
     keyset(n, '<leader>lw', function()
         vim.lsp.buf.workspace_symbol()
@@ -155,7 +139,7 @@ function M.lsp(e)
 
     keyset(n, '<leader>lh', function()
         vim.diagnostic.open_float()
-    end, { desc = 'LSP: Hover', buffer = opts['buffer'] })
+    end, { desc = 'LSP: Show Diagnostic Details', buffer = opts['buffer'] })
 
     keyset(n, '<leader>lc', function()
         vim.lsp.buf.code_action()
@@ -164,10 +148,6 @@ function M.lsp(e)
     keyset(n, '<leader>lr', function()
         vim.lsp.buf.rename()
     end, { desc = 'LSP: [R]e[n]ame', buffer = opts['buffer'] })
-
-    keyset('i', '<C-h>', function()
-        vim.lsp.buf.signature_help()
-    end, opts)
 
     keyset(n, '[d', function()
         vim.diagnostic.goto_next()
@@ -240,6 +220,18 @@ function M.mtoc()
         '<CMD>:Mtoc<CR>',
         { desc = 'Markdown: Table of Contents' }
     )
+end
+
+function M.markdown()
+    keyset(n, 'gk', function()
+        vim.cmd('silent! ?^##\\+\\s.*$')
+        vim.cmd('nohlsearch')
+    end, { desc = 'Go to previous Header' })
+
+    keyset(n, 'gj', function()
+        vim.cmd('silent! /^##\\+\\s.*$')
+        vim.cmd('nohlsearch')
+    end, { desc = 'Go to next Header' })
 end
 
 function M.outline()
