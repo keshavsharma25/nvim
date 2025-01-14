@@ -13,7 +13,7 @@ return {
         },
     },
     opts = {
-        notify_on_error = false,
+        notify_on_error = true,
         format_on_save = {
             timeout_ms = 1500,
             lsp_fallback = true,
@@ -22,12 +22,12 @@ return {
             lua = { 'stylua' },
             go = { 'goimports', 'gofmt' },
             rust = { 'rustfmt' },
-            python = { 'ruff_fix', 'ruff_format' },
-            javascript = { { 'prettierd', 'biome' } },
-            typescript = { { 'prettierd', 'biome' } },
-            typescriptreact = { { 'prettierd', 'biome' } },
+            python = { 'ruff' },
+            javascript = { 'prettierd', 'biome', stop_after_first = true },
+            typescript = { 'prettierd', 'biome', stop_after_first = true },
+            typescriptreact = { 'prettierd', 'biome', stop_after_first = true },
             solidity = { 'prettier_solidity' },
-            json = { 'prettier' },
+            json = { 'prettierd' },
             markdown = { 'markdownlint' },
             ['*'] = { 'trim_whitespace' },
         },
@@ -35,13 +35,5 @@ return {
     },
     config = function(_, opts)
         require('conform').setup(opts)
-
-        local solidity_formatter =
-            vim.deepcopy(require('conform.formatters.prettier'))
-        require('conform.util').add_formatter_args(solidity_formatter, {
-            '--stdin-filepath',
-            '--plugin=prettier-plugin-solidity',
-        }, { append = false })
-        require('conform').formatters.prettier_solidity = solidity_formatter
     end,
 }
