@@ -66,7 +66,7 @@ return {
                 if client.name == 'pyright' then
                     -- Configure pyright specific settings
                     client.server_capabilities.documentFormattingProvider =
-                        false -- Let ruff_lsp handle formatting
+                        false -- Let ruff handle formatting
                 end
 
                 if client.name == 'ruff' then
@@ -142,20 +142,21 @@ return {
                         setup_python(cl, args)
 
                         -- Setup Python specific autocommands
-                        vim.api.nvim_create_autocmd('BufWritePre', {
-                            group = lsp_group,
-                            buffer = args.buf,
-                            callback = function()
-                                -- Format on save using the LSP
-                                vim.lsp.buf.format({
-                                    filter = function()
-                                        -- Prefer ruff_lsp for formatting
-                                        return cl.name == 'ruff'
-                                    end,
-                                    bufnr = args.buf,
-                                })
-                            end,
-                        })
+                        if cl.name == 'ruff' then
+                            vim.api.nvim_create_autocmd('BufWritePre', {
+                                group = lsp_group,
+                                buffer = args.buf,
+                                callback = function()
+                                    -- Format on save using the LSP
+                                    vim.lsp.buf.format({
+                                        filter = function()
+                                            return cl.name == 'ruff'
+                                        end,
+                                        bufnr = args.buf,
+                                    })
+                                end,
+                            })
+                        end
                     end
 
                     if cl.name == 'ts_ls' then
