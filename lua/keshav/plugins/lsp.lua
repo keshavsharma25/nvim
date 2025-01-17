@@ -39,9 +39,15 @@ return {
             local lsp_group =
                 vim.api.nvim_create_augroup('LspConfig', { clear = true })
 
-            local servers =
-                { 'lua_ls', 'ruff', 'pyright', 'biome', 'ts_ls', 'taplo' }
-            local fmters = { 'prettierd' }
+            local servers = {
+                'lua_ls',
+                'ruff',
+                'pyright',
+                'biome',
+                'ts_ls',
+                'taplo',
+            }
+            local fmters = { 'prettierd', 'markdownlint' }
 
             require('mason').setup({
                 ensure_installed = fmters,

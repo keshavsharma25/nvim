@@ -26,7 +26,6 @@ return {
             javascript = { 'prettierd', 'biome', stop_after_first = true },
             typescript = { 'prettierd', 'biome', stop_after_first = true },
             typescriptreact = { 'prettierd', 'biome', stop_after_first = true },
-            solidity = { 'prettier_solidity' },
             json = { 'prettierd' },
             markdown = { 'markdownlint' },
             ['*'] = { 'trim_whitespace' },
