@@ -39,7 +39,8 @@ return {
             local lsp_group =
                 vim.api.nvim_create_augroup('LspConfig', { clear = true })
 
-            local servers = { 'lua_ls', 'ruff', 'pyright', 'biome', 'ts_ls' }
+            local servers =
+                { 'lua_ls', 'ruff', 'pyright', 'biome', 'ts_ls', 'taplo' }
             local fmters = { 'prettierd' }
 
             require('mason').setup({
@@ -183,8 +184,6 @@ return {
 
             local luasnip = require('luasnip')
             local cmp = require('cmp')
-
-            local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
             cmp.setup({
                 snippet = {
