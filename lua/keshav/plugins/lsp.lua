@@ -47,6 +47,7 @@ return {
                 'ts_ls',
                 'taplo',
             }
+
             local fmters = { 'prettierd', 'markdownlint' }
 
             require('mason').setup({

@@ -22,5 +22,7 @@ return {
                 },
             },
         })
+
+        require('keshav.keymaps').cloak_toggle()
     end,
 }

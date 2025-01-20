@@ -243,4 +243,13 @@ function M.outline()
     )
 end
 
+function M.cloak_toggle()
+    keyset(
+        n,
+        '<leader><leader>c',
+        '<CMD>CloakToggle<CR>',
+        { desc = '[C]loakToggle', noremap = true }
+    )
+end
+
 return M
