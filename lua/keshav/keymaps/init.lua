@@ -177,28 +177,28 @@ function M.harpoon()
         harpoon.ui:toggle_quick_menu(harpoon:list())
     end, { desc = 'Harpoon: Show list' })
 
-    keyset(n, '<C-w>', function()
+    keyset(n, '<C-i>', function()
         harpoon:list():select(1)
     end, { desc = 'Harpoon: Add to 1' })
-    keyset(n, '<C-a>', function()
+    keyset(n, '<C-o>', function()
         harpoon:list():select(2)
     end, { desc = 'Harpoon: Add to 2' })
-    keyset(n, '<C-x>', function()
+    keyset(n, '<C-p>', function()
         harpoon:list():select(3)
     end, { desc = 'Harpoon: Add to 3' })
-    keyset(n, '<C-d>', function()
+    keyset(n, '<C-m>', function()
         harpoon:list():select(4)
     end, { desc = 'Harpoon: add to 4' })
-    keyset(n, '<leader><C-w>', function()
+    keyset(n, '<leader><C-i>', function()
         harpoon:list():replace_at(1)
     end, { desc = 'Harpoon: Replace at 1' })
-    keyset(n, '<leader><C-a>', function()
+    keyset(n, '<leader><C-o>', function()
         harpoon:list():replace_at(2)
     end, { desc = 'Harpoon: Replace at 2' })
-    keyset(n, '<leader><C-x>', function()
+    keyset(n, '<leader><C-p>', function()
         harpoon:list():replace_at(3)
     end, { desc = 'Harpoon: Replace at 3' })
-    keyset(n, '<leader><C-d>', function()
+    keyset(n, '<leader><C-m>', function()
         harpoon:list():replace_at(4)
     end, { desc = 'Harpoon: Replace at 4' })
 end
@@ -249,6 +249,22 @@ function M.cloak_toggle()
         '<leader><leader>c',
         '<CMD>CloakToggle<CR>',
         { desc = '[C]loakToggle', noremap = true }
+    )
+end
+
+function M.toggle_term()
+    keyset(
+        n,
+        '<leader>ot',
+        '<CMD>ToggleTerm direction=float<CR>',
+        { desc = '[O]pen [T]erm', noremap = true }
+    )
+
+    keyset(
+        t,
+        '<esc>',
+        [[<C-\><C-n>]],
+        { desc = 'Exit Terminal', noremap = true }
     )
 end
 
