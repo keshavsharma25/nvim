@@ -40,6 +40,7 @@ return {
                 vim.api.nvim_create_augroup('LspConfig', { clear = true })
 
             local servers = {
+                'clangd',
                 'lua_ls',
                 'ruff',
                 'pyright',
