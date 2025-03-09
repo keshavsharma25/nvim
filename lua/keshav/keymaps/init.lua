@@ -255,9 +255,9 @@ end
 function M.toggle_term()
     keyset(
         n,
-        '<leader>ot',
+        '<leader>oo',
         '<CMD>ToggleTerm direction=float<CR>',
-        { desc = '[O]pen [T]erm', noremap = true }
+        { desc = '[O]pen [O]Term', noremap = true }
     )
 
     keyset(
