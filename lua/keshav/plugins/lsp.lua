@@ -48,11 +48,10 @@ return {
                 'ts_ls',
                 'taplo',
                 'gopls',
-                'delve',
                 'marksman',
             }
 
-            local fmters = { 'prettierd', 'markdownlint' }
+            local fmters = { 'prettierd', 'markdownlint', 'delve' }
 
             require('mason').setup({
                 ensure_installed = fmters,
