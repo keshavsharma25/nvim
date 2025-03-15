@@ -47,6 +47,9 @@ return {
                 'biome',
                 'ts_ls',
                 'taplo',
+                'gopls',
+                'delve',
+                'marksman',
             }
 
             local fmters = { 'prettierd', 'markdownlint' }
@@ -68,9 +71,7 @@ return {
                 })
             end
 
-            local function setup_python(client, args)
-                lsp_keymaps.lsp(args)
-
+            local function setup_python(client)
                 -- Configure Python specific settings
                 if client.name == 'pyright' then
                     -- Configure pyright specific settings
@@ -103,9 +104,7 @@ return {
                 ) and 'prettierd' or 'biome'
             end
 
-            local function setup_ts(client, args)
-                lsp_keymaps.lsp(args)
-
+            local function setup_ts(client)
                 if client.name == 'ts_ls' then
                     client.server_capabilities.documentFormattingProvider =
                         false -- Let biome handle formatting
@@ -146,9 +145,11 @@ return {
                         vim.lsp.inlay_hint.enable(true)
                     end
 
+                    lsp_keymaps.lsp(args)
+
                     -- Python (pyright, ruff) on LspAttach config
                     if cl.name == 'pyright' or cl.name == 'ruff' then
-                        setup_python(cl, args)
+                        setup_python(cl)
 
                         -- Setup Python specific autocommands
                         if cl.name == 'ruff' then
@@ -169,7 +170,7 @@ return {
                     end
 
                     if cl.name == 'ts_ls' then
-                        setup_ts(cl, args)
+                        setup_ts(cl)
 
                         -- Setup Typescript specific autocommands
                         vim.api.nvim_create_autocmd('BufWritePre', {
