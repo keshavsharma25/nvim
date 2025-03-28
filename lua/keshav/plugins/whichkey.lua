@@ -9,6 +9,8 @@ return {
             { '<leader>s', group = 'Telescope' },
             { '<leader>t', group = 'Trouble' },
             { '<leader>g', group = 'LazyGit' },
+            { '<leader>h', group = 'harpoon: Add&Explore' },
+            { '<leader>x', group = 'harpoon: Replace' },
         })
     end,
 }
