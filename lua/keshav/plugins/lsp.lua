@@ -61,6 +61,7 @@ return {
             require('mason-lspconfig').setup({
                 ensure_installed = servers,
                 automatic_installation = false,
+                automatic_enable = false,
             })
 
             for _, lsp in ipairs(servers) do
