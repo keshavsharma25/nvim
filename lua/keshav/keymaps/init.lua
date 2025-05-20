@@ -11,7 +11,7 @@ local M = {}
 
 function M.init()
     -- No higlight
-    keyset(n_v, '<leader>h', '<Cmd>noh<CR>', {
+    keyset(n_v, '<leader>n', '<Cmd>noh<CR>', {
         desc = 'Remove [H]ighlights',
         noremap = allow_remap['noremap'],
         silent = allow_remap['silent'],
