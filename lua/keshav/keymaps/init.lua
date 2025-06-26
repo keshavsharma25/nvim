@@ -92,16 +92,6 @@ function M.telescope()
     end, { desc = '[S]earch current [W]ord(no spaces)' })
 end
 
-function M.telescope_browse()
-    -- keyset to open Telescope File Browser
-    keyset(
-        n,
-        '<space>sb',
-        ':Telescope file_browser path=%:p:h select_buffer=true<CR>',
-        { noremap = true, desc = '[S]earch in [B]rowser' }
-    )
-end
-
 function M.lsp(e)
     -- LSP Definition, Hover, etc..
     local opts = { buffer = e.buf }
