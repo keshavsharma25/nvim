@@ -31,11 +31,8 @@ return {
             'williamboman/mason-lspconfig.nvim',
         },
         config = function()
-            local lspconfig = require('lspconfig')
             local lsp_keymaps = require('keshav.keymaps')
-
             local capabilities = require('cmp_nvim_lsp').default_capabilities()
-
             local lsp_group =
                 vim.api.nvim_create_augroup('LspConfig', { clear = true })
 
@@ -55,20 +52,33 @@ return {
 
             require('mason').setup({
                 ensure_installed = fmters,
-                automatic_installation = false,
+            })
+
+            vim.lsp.config('*', {
+                capabilities = capabilities,
+            })
+
+            -- Specific configs for ts_ls and biome
+            vim.lsp.config('ts_ls', {
+                root_markers = {
+                    'tsconfig.json',
+                    'jsconfig.json',
+                    'package.json',
+                    '.git',
+                },
+                single_file_support = false,
+            })
+
+            vim.lsp.config('biome', {
+                root_markers = { 'biome.json', 'biome.jsonc' },
+                single_file_support = true,
             })
 
             require('mason-lspconfig').setup({
                 ensure_installed = servers,
-                automatic_installation = false,
             })
 
-            for _, lsp in ipairs(servers) do
-                lspconfig[lsp].setup({
-                    -- on_attach = my_custom_on_attach,
-                    capabilities = capabilities,
-                })
-            end
+            vim.lsp.enable(servers)
 
             local function setup_python(client)
                 -- Configure Python specific settings
@@ -77,7 +87,6 @@ return {
                     client.server_capabilities.documentFormattingProvider =
                         false -- Let ruff handle formatting
                 end
-
                 if client.name == 'ruff' then
                     -- Configure Ruff specific settings
                     client.server_capabilities.hoverProvider = false -- Let pyright handle hover
@@ -85,7 +94,9 @@ return {
             end
 
             -- Check if the formatter is Biome or Prettier
-            local function get_formatter()
+            local function get_formatter(bufnr)
+                bufnr = bufnr or 0
+
                 -- Check for Prettier config files
                 local prettier_files = {
                     '.prettierrc',
@@ -97,41 +108,24 @@ return {
                     'prettier.config.js',
                     'package.json',
                 }
-
-                return vim.lsp.util.root_pattern(unpack(prettier_files))(
-                    vim.fn.getcwd()
-                ) and 'prettierd' or 'biome'
+                return vim.fs.root(bufnr, prettier_files) and 'prettierd'
+                    or 'biome'
             end
 
-            local function setup_ts(client)
+            local function setup_ts(client, bufnr)
                 if client.name == 'ts_ls' then
                     client.server_capabilities.documentFormattingProvider =
                         false -- Let biome handle formatting
-
-                    local lsp_util = require('lspconfig.util')
-
-                    client.root_dir = lsp_util.root_pattern(
-                        'tsconfig.json',
-                        'jsconfig.json',
-                        'package.json',
-                        '.git'
-                    )
-
-                    client.single_file = false
                 end
-
                 if client.name == 'biome' then
-                    client.root_dir =
-                        vim.lsp.util.root_pattern('biome.json', 'biome.jsonc')
-
-                    client.single_file_support = true
-
-                    if get_formatter() == 'prettierd' then
+                    if get_formatter(bufnr) == 'prettierd' then
                         client.server_capabilities.documentFormattingProvider =
                             false -- Let prettier handle formatting
                     end
                 end
             end
+
+            local conform = require('conform')
 
             vim.api.nvim_create_autocmd('LspAttach', {
                 callback = function(args)
@@ -160,8 +154,8 @@ return {
                                 callback = function()
                                     -- Format on save using the LSP
                                     vim.lsp.buf.format({
-                                        filter = function()
-                                            return cl.name == 'ruff'
+                                        filter = function(client)
+                                            return client.name == 'ruff'
                                         end,
                                         bufnr = args.buf,
                                     })
@@ -170,24 +164,34 @@ return {
                         end
                     end
 
-                    if cl.name == 'ts_ls' then
-                        setup_ts(cl)
+                    if cl.name == 'ts_ls' or cl.name == 'biome' then
+                        setup_ts(cl, args.buf)
 
                         -- Setup Typescript specific autocommands
-                        vim.api.nvim_create_autocmd('BufWritePre', {
-                            group = lsp_group,
-                            buffer = args.buf,
-                            callback = function()
-                                -- Format on save using the LSP
-                                vim.lsp.buf.format({
-                                    filter = function()
-                                        -- Prefer biome for formatting
-                                        return cl.name == get_formatter()
-                                    end,
-                                    bufnr = args.buf,
-                                })
-                            end,
-                        })
+                        if not vim.b[args.buf].ts_format_set then
+                            vim.b[args.buf].ts_format_set = true
+                            vim.api.nvim_create_autocmd('BufWritePre', {
+                                group = lsp_group,
+                                buffer = args.buf,
+                                callback = function()
+                                    local formatter = get_formatter(args.buf)
+                                    if formatter == 'prettierd' then
+                                        conform.format({
+                                            formatters = { 'prettierd' },
+                                            bufnr = args.buf,
+                                        })
+                                    else
+                                        -- Format on save using the LSP
+                                        vim.lsp.buf.format({
+                                            filter = function(client)
+                                                return client.name == formatter
+                                            end,
+                                            bufnr = args.buf,
+                                        })
+                                    end
+                                end,
+                            })
+                        end
                     end
                 end,
             })
@@ -221,6 +225,11 @@ return {
                     { name = 'nvim_lsp' },
                     { name = 'luasnip' },
                 },
+            })
+
+            -- Optionally setup conform if needed globally
+            conform.setup({
+                -- Add global formatters if necessary
             })
         end,
     },
