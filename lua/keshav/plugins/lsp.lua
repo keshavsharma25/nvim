@@ -61,7 +61,6 @@ return {
             require('mason-lspconfig').setup({
                 ensure_installed = servers,
                 automatic_installation = false,
-                automatic_enable = false,
             })
 
             for _, lsp in ipairs(servers) do
@@ -109,7 +108,9 @@ return {
                     client.server_capabilities.documentFormattingProvider =
                         false -- Let biome handle formatting
 
-                    client.root_dir = vim.lsp.util.root_pattern(
+                    local lsp_util = require('lspconfig.util')
+
+                    client.root_dir = lsp_util.root_pattern(
                         'tsconfig.json',
                         'jsconfig.json',
                         'package.json',
