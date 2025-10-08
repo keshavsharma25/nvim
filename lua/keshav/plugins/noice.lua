@@ -7,7 +7,7 @@ return {
         -- OPTIONAL:
         --   `nvim-notify` is only needed, if you want to use the notification view.
         --   If not available, we use `mini` as the fallback
-        -- 'rcarriga/nvim-notify',
+        'rcarriga/nvim-notify',
     },
     config = function()
         require('noice').setup({
@@ -30,6 +30,15 @@ return {
                 view = 'cmdline',
                 cmdline = { pattern = '^:', icon = '', lang = 'vim' },
             },
+            notify = {
+                enabled = true,
+                view = 'notify',
+            },
+        })
+
+        require('notify').setup({
+            merge_duplicates = true,
+            background_colour = '#000000',
         })
     end,
 }
