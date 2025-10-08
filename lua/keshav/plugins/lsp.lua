@@ -115,19 +115,6 @@ return {
                 },
             })
 
-            -- Add ruff for linting
-            vim.lsp.config('ruff', {
-                cmd = function()
-                    local venv_path = vim.fs.find({ '.venv' }, {
-                        upward = true,
-                        path = vim.fn.getcwd(),
-                        type = 'directory',
-                    })[1]
-                    return venv_path and { venv_path .. '/bin/ruff', 'server' }
-                        or { 'ruff', 'server' }
-                end,
-            })
-
             require('mason-lspconfig').setup({
                 ensure_installed = servers,
             })
