@@ -18,6 +18,9 @@ return {
                 'sway',
                 'typescript',
                 'vimdoc',
+                'html',
+                'latex',
+                'yaml',
             },
 
             -- Install parsers synchronously (only applied to `ensure_installed`)
