@@ -48,7 +48,8 @@ return {
                 'marksman',
             }
 
-            local fmters = { 'prettierd', 'markdownlint', 'delve' }
+            local fmters =
+                { 'prettierd', 'stylua', 'goimports', 'markdownlint', 'delve' }
 
             require('mason').setup({
                 ensure_installed = fmters,
@@ -56,6 +57,22 @@ return {
 
             vim.lsp.config('*', {
                 capabilities = capabilities,
+            })
+
+            vim.lsp.config('lua_ls', {
+                on_init = function(client)
+                    client.server_capabilities.documentFormattingProvider =
+                        false
+                    client.server_capabilities.documentRangeFormattingProvider =
+                        false
+                end,
+                settings = {
+                    Lua = {
+                        diagnostics = {
+                            globals = { 'vim' }, -- Optional, for vim globals
+                        },
+                    },
+                },
             })
 
             -- Specific configs for ts_ls and biome
@@ -74,6 +91,43 @@ return {
                 single_file_support = true,
             })
 
+            -- Add pyright-specific config for uv .venv detection
+            vim.lsp.config('pyright', {
+                before_init = function(params, config)
+                    -- Dynamically find .venv upward from workspace root
+                    local venv_path = vim.fs.find({ '.venv' }, {
+                        upward = true,
+                        path = params.root_dir,
+                        type = 'directory',
+                    })[1]
+                    if venv_path then
+                        config.settings.python.pythonPath = venv_path
+                            .. '/bin/python'
+                    end
+                end,
+                settings = {
+                    python = {
+                        analysis = {
+                            autoImportCompletions = true,
+                            diagnosticMode = 'workspace',
+                        },
+                    },
+                },
+            })
+
+            -- Add ruff for linting
+            vim.lsp.config('ruff', {
+                cmd = function()
+                    local venv_path = vim.fs.find({ '.venv' }, {
+                        upward = true,
+                        path = vim.fn.getcwd(),
+                        type = 'directory',
+                    })[1]
+                    return venv_path and { venv_path .. '/bin/ruff', 'server' }
+                        or { 'ruff', 'server' }
+                end,
+            })
+
             require('mason-lspconfig').setup({
                 ensure_installed = servers,
             })
@@ -84,8 +138,9 @@ return {
                 -- Configure Python specific settings
                 if client.name == 'pyright' then
                     -- Configure pyright specific settings
+                    -- Let ruff handle formatting
                     client.server_capabilities.documentFormattingProvider =
-                        false -- Let ruff handle formatting
+                        false
                 end
                 if client.name == 'ruff' then
                     -- Configure Ruff specific settings
