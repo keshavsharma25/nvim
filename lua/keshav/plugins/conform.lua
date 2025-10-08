@@ -36,5 +36,21 @@ return {
     },
     config = function(_, opts)
         require('conform').setup(opts)
+
+        vim.api.nvim_create_autocmd('BufWritePre', {
+            pattern = '*.lua',
+            group = vim.api.nvim_create_augroup(
+                'ConformLuaFormat',
+                { clear = true }
+            ),
+            callback = function(args)
+                require('conform').format({
+                    bufnr = args.buf,
+                    async = false, -- Sync for save to avoid partial writes
+                    timeout_ms = 1000,
+                    lsp_fallback = true,
+                })
+            end,
+        })
     end,
 }
