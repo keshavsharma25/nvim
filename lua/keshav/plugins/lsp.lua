@@ -46,10 +46,17 @@ return {
                 'taplo',
                 'gopls',
                 'marksman',
+                'yaml-language-server',
             }
 
-            local fmters =
-                { 'prettierd', 'stylua', 'goimports', 'markdownlint', 'delve' }
+            local fmters = {
+                'prettierd',
+                'stylua',
+                'goimports',
+                'markdownlint',
+                'delve',
+                'yamlfmt',
+            }
 
             require('mason').setup({
                 ensure_installed = fmters,
