@@ -46,7 +46,7 @@ return {
                 'taplo',
                 'gopls',
                 'marksman',
-                'yaml-language-server',
+                'yamlls',
             }
 
             local fmters = {
