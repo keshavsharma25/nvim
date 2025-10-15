@@ -28,7 +28,7 @@ return {
             typescriptreact = { 'prettierd', 'biome', stop_after_first = true },
             json = { 'prettierd' },
             markdown = { 'markdownlint' },
-            yaml = { 'yamlfmt' },
+            yaml = { 'prettierd' },
             ['*'] = { 'trim_whitespace' },
         },
         format_after_save = {

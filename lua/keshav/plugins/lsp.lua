@@ -55,7 +55,6 @@ return {
                 'goimports',
                 'markdownlint',
                 'delve',
-                'yamlfmt',
             }
 
             require('mason').setup({
