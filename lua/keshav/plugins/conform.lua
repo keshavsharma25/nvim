@@ -26,7 +26,7 @@ return {
             javascript = { 'biome', 'prettierd', stop_after_first = true },
             typescript = { 'biome', 'prettierd', stop_after_first = true },
             typescriptreact = { 'prettierd', 'biome', stop_after_first = true },
-            json = { 'prettierd' },
+            json = { 'biome' },
             markdown = { 'markdownlint' },
             yaml = { 'prettierd' },
             ['*'] = { 'trim_whitespace' },
