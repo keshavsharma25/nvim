@@ -121,6 +121,12 @@ return {
                 },
             })
 
+            vim.lsp.config('ruff', {
+                settings = {
+                    args = { '--fix' },
+                },
+            })
+
             require('mason-lspconfig').setup({
                 ensure_installed = servers,
             })
