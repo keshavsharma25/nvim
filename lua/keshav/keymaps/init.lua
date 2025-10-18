@@ -248,4 +248,24 @@ function M.toggle_term()
     )
 end
 
+function M.mini_sessions()
+    local write_as_cwd = function()
+        local cwd = vim.fn.getcwd()
+        local session_name = cwd:gsub('/', '-') -- Replace / with - for filename safety
+        require('mini.sessions').write(session_name)
+        print('Saved session: ' .. session_name) -- Optional feedback
+    end
+
+    keyset(
+        'n',
+        '<Leader>ws',
+        write_as_cwd,
+        { desc = '[W]rite [S]ession as cwd' }
+    )
+
+    vim.keymap.set('n', '<Leader>wl', function()
+        require('mini.sessions').select()
+    end, { desc = '(W) [L]oad session' })
+end
+
 return M
