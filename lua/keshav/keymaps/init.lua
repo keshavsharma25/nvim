@@ -140,11 +140,11 @@ function M.lsp(e)
     end, { desc = 'LSP: [R]e[n]ame', buffer = opts['buffer'] })
 
     keyset(n, '[d', function()
-        vim.diagnostic.goto_next()
+        vim.diagnostic.jump({ count = 1 })
     end, { desc = 'Next([) Diagnostics', buffer = opts['buffer'] })
 
     keyset(n, ']d', function()
-        vim.diagnostic.goto_prev()
+        vim.diagnostic.jump({ count = -1 })
     end, { desc = 'Previous(]) Diagnostics', buffer = opts['buffer'] })
 end
 
