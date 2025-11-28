@@ -47,6 +47,7 @@ return {
                 'gopls',
                 'marksman',
                 'yamlls',
+                'solidity_ls',
             }
 
             local fmters = {
@@ -65,6 +66,7 @@ return {
                 capabilities = capabilities,
             })
 
+            -- Lua related config
             vim.lsp.config('lua_ls', {
                 on_init = function(client)
                     client.server_capabilities.documentFormattingProvider =
@@ -77,6 +79,18 @@ return {
                         diagnostics = {
                             globals = { 'vim' }, -- Optional, for vim globals
                         },
+                    },
+                },
+            })
+
+            -- yamlls related config
+            vim.lsp.config('yamlls', {
+                settings = {
+                    yaml = {
+                        schemas = {
+                            ['https://squidfunk.github.io/mkdocs-material/schema.json'] = 'mkdocs.yml',
+                        },
+                        validate = true,
                     },
                 },
             })
