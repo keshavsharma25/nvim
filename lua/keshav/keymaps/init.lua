@@ -24,6 +24,17 @@ function M.init()
 
     -- Go to Parent Dir
     keyset(n, '-', '<CMD>:Explore<CR>', { desc = 'Go to Parent Directory' })
+
+    keyset(n, '<leader>cc', function()
+        -- Check if the column is currently set to 80
+        if vim.wo.colorcolumn == '80' then
+            vim.wo.colorcolumn = '0'
+            print('ColorColumn Disabled')
+        else
+            vim.wo.colorcolumn = '80'
+            print('ColorColumn Enabled (80)')
+        end
+    end, { desc = 'Toggle Color Column' })
 end
 
 function M.telescope()
