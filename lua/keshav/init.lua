@@ -22,7 +22,11 @@ vim.api.nvim_create_autocmd('BufWritePre', {
     desc = 'Clear whitespaces at the end of line',
     group = keshavGroup,
     pattern = '*',
-    command = [[%s/\s\+$//e]],
+    callback = function()
+        local view = vim.fn.winsaveview()
+        vim.cmd([[keeppatterns %s/\s\+$//e]])
+        vim.fn.winrestview(view)
+    end,
 })
 
 vim.api.nvim_create_autocmd('LspAttach', {
