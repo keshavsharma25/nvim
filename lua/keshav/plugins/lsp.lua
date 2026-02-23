@@ -48,6 +48,7 @@ return {
                 'marksman',
                 'yamlls',
                 'solidity_ls',
+                'cssls',
             }
 
             local fmters = {
