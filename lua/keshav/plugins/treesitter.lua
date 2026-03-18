@@ -25,6 +25,8 @@ return {
                 'html',
                 'latex',
                 'yaml',
+                'markdown',
+                'markdown_inline',
             },
             sync_install = false, -- Set to true if you want it to block during install
             auto_install = true, -- Automatically install missing parsers when entering buffer
