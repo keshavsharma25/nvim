@@ -4,7 +4,7 @@ return {
     lazy = false,
     build = ':TSUpdate',
     config = function()
-        local config = require('nvim-treesitter.configs')
+        local config = require('nvim-treesitter.config')
 
         config.setup({
             modules = {},
@@ -12,6 +12,7 @@ return {
             ensure_installed = {
                 'bash',
                 'c',
+                'comment',
                 'go',
                 'javascript',
                 'jsdoc',
@@ -24,10 +25,12 @@ return {
                 'vimdoc',
                 'html',
                 'latex',
+                'typst',
                 'yaml',
                 'markdown',
                 'markdown_inline',
             },
+            install_dir = vim.fn.stdpath('data'),
             sync_install = false, -- Set to true if you want it to block during install
             auto_install = true, -- Automatically install missing parsers when entering buffer
 
