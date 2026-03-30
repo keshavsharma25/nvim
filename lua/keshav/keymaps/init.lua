@@ -37,91 +37,157 @@ function M.init()
     end, { desc = 'Toggle Color Column' })
 end
 
-function M.telescope()
-    local builtin = require('telescope.builtin')
+function M.snacks()
+    local picker = require('snacks.picker')
+    local snacks = require('snacks')
 
-    keyset(n, '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
-    keyset(n, '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-    keyset(n, '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
-    keyset(n, '<leader>si', builtin.git_files, { desc = '[S]earch [I]n Git' })
+    -- Picker bindings
+    keyset(n, '<leader>sh', picker.help, { desc = '[S]earch [H]elp' })
+    keyset(n, '<leader>sk', picker.keymaps, { desc = '[S]earch [K]eymaps' })
+    keyset(n, '<leader>sf', picker.files, { desc = '[S]earch [F]iles' })
+    keyset(n, '<leader>si', picker.git_files, { desc = '[S]earch [I]n Git' })
     keyset(
         n,
         '<leader>ss',
-        builtin.builtin,
-        { desc = '[S]earch [S]elect Telescope' }
+        picker.pickers,
+        { desc = '[S]earch [S]elect Picker' }
     )
     keyset(
         n,
         '<leader>sw',
-        builtin.grep_string,
+        picker.grep_word,
         { desc = '[S]earch current [W]ord' }
     )
-    keyset(n, '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
+    keyset(n, '<leader>sW', function()
+        local word = vim.fn.expand('<cWORD>')
+        picker.grep({ search = word })
+    end, { desc = '[S]earch current [W]ord(no spaces)' })
+    keyset(n, '<leader>sg', picker.grep, { desc = '[S]earch by [G]rep' })
     keyset(
         n,
         '<leader>sd',
-        builtin.diagnostics,
+        picker.diagnostics,
         { desc = '[S]earch [D]iagnostics' }
     )
-    keyset(n, '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
+    keyset(n, '<leader>sr', picker.resume, { desc = '[S]earch [R]esume' })
     keyset(
         n,
         '<leader>s.',
-        builtin.oldfiles,
+        picker.recent,
         { desc = '[S]earch Recent Files ("." for repeat)' }
     )
     keyset(
         n,
         '<leader><leader>',
-        builtin.buffers,
+        picker.buffers,
         { desc = '[ ] Find existing buffers' }
     )
 
     keyset(n, '<leader>/', function()
-        builtin.current_buffer_fuzzy_find(
-            require('telescope.themes').get_dropdown({
-                winblend = 10,
-                previewer = false,
-            })
-        )
+        picker.lines()
     end, { desc = '[/] Fuzzily search in current buffer' })
 
     keyset(n, '<leader>s/', function()
-        builtin.live_grep({
-            grep_open_files = true,
-            prompt_title = 'Live Grep in Open Files',
-        })
+        picker.grep_buffers()
     end, { desc = '[S]earch [/] in Open Files' })
 
     keyset(n, '<leader>sn', function()
-        builtin.find_files({ cwd = vim.fn.stdpath('config') })
+        picker.files({ cwd = vim.fn.stdpath('config') })
     end, { desc = '[S]earch [N]eovim files' })
 
-    keyset(n, '<leader>sW', function()
-        local word = vim.fn.expand('<cWORD>')
-        builtin.grep_string({ search = word })
-    end, { desc = '[S]earch current [W]ord(no spaces)' })
+    -- Terminal mapping (ported directly over as requested)
+    keyset(n, '<leader>oo', function()
+        snacks.terminal()
+    end, { desc = '[O]pen [O]Term', noremap = true })
+    keyset(
+        t,
+        '<esc>',
+        [[<C-\><C-n>]],
+        { desc = 'Exit Terminal', noremap = true }
+    )
+
+    -- Rest of the requested Snacks integrations
+    keyset(n, '<leader>z', function()
+        snacks.zen()
+    end, { desc = 'Toggle Zen Mode' })
+    keyset(n, '<leader>Z', function()
+        snacks.zen.zoom()
+    end, { desc = 'Toggle Zoom' })
+    keyset(n, '<leader>.', function()
+        snacks.scratch()
+    end, { desc = 'Toggle Scratch Buffer' })
+    keyset(n, '<leader>S', function()
+        snacks.scratch.select()
+    end, { desc = 'Select Scratch Buffer' })
+    keyset(n, '<leader>ns', function()
+        snacks.notifier.show_history()
+    end, { desc = '[N]otification History: [S]how' })
+    keyset(n, '<leader>bd', function()
+        snacks.bufdelete()
+    end, { desc = 'Delete Buffer' })
+    keyset(n, '<leader>cR', function()
+        snacks.rename.rename_file()
+    end, { desc = 'Rename File' })
+    keyset({ 'n', 'v' }, '<leader>gB', function()
+        snacks.gitbrowse()
+    end, { desc = 'Git Browse' })
+    keyset(n, '<leader>gg', function()
+        snacks.lazygit()
+    end, { desc = 'Lazygit' })
+    keyset(n, '<leader>un', function()
+        snacks.notifier.hide()
+    end, { desc = 'Dismiss All Notifications' })
+    keyset(n, '<c-/>', function()
+        snacks.terminal()
+    end, { desc = 'Toggle Terminal' })
+    keyset(n, '<c-_>', function()
+        snacks.terminal()
+    end, { desc = 'which_key_ignore' })
+    keyset({ 'n', 't' }, ']]', function()
+        snacks.words.jump(vim.v.count1)
+    end, { desc = 'Next Reference' })
+    keyset({ 'n', 't' }, '[[', function()
+        snacks.words.jump(-vim.v.count1)
+    end, { desc = 'Prev Reference' })
 end
 
 function M.lsp(e)
     -- LSP Definition, Hover, etc..
     local opts = { buffer = e.buf }
+    local picker = require('snacks.picker')
 
     keyset(n, 'gd', function()
-        vim.lsp.buf.definition()
+        picker.lsp_definitions()
     end, { desc = '[G]oto [D]efinition', buffer = opts['buffer'] })
 
     keyset(n, 'gD', function()
-        vim.lsp.buf.declaration()
+        picker.lsp_declarations()
     end, { desc = '[G]oto [D]eclaration', buffer = opts['buffer'] })
 
-    keyset(n, 'gi', function()
-        vim.lsp.buf.implementation()
+    keyset(n, 'gI', function()
+        picker.lsp_implementations()
     end, { desc = '[G]oto [I]mplementation', buffer = opts['buffer'] })
 
-    keyset(n, 'gr', function()
-        vim.lsp.buf.references()
-    end, { desc = '[G]oto [R]eferences', buffer = opts['buffer'] })
+    keyset(n, 'gy', function()
+        picker.lsp_type_definitions()
+    end, { desc = 'Goto T[y]pe Definition', buffer = opts['buffer'] })
+
+    keyset(
+        n,
+        'gr',
+        function()
+            picker.lsp_references()
+        end,
+        { desc = '[G]oto [R]eferences', buffer = opts['buffer'], nowait = true }
+    )
+
+    keyset(n, 'gai', function()
+        picker.lsp_incoming_calls()
+    end, { desc = 'C[a]lls Incoming', buffer = opts['buffer'] })
+
+    keyset(n, 'gao', function()
+        picker.lsp_outgoing_calls()
+    end, { desc = 'C[a]lls Outgoing', buffer = opts['buffer'] })
 
     keyset(n, 'K', function()
         vim.lsp.buf.hover()
@@ -131,12 +197,13 @@ function M.lsp(e)
         vim.lsp.buf.signature_help()
     end, opts)
 
-    keyset(n, '<leader>lw', function()
-        vim.lsp.buf.workspace_symbol()
-    end, {
-        desc = 'LSP: [W]orkspace [S]ymbol',
-        buffer = opts['buffer'],
-    })
+    keyset(n, '<leader>ss', function()
+        picker.lsp_symbols()
+    end, { desc = 'LSP Symbols', buffer = opts['buffer'] })
+
+    keyset(n, '<leader>sS', function()
+        picker.lsp_workspace_symbols()
+    end, { desc = 'LSP Workspace Symbols', buffer = opts['buffer'] })
 
     keyset(n, '<leader>lh', function()
         vim.diagnostic.open_float()
