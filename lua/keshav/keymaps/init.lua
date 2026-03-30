@@ -243,22 +243,6 @@ function M.cloak_toggle()
     )
 end
 
-function M.toggle_term()
-    keyset(
-        n,
-        '<leader>oo',
-        '<CMD>ToggleTerm direction=float<CR>',
-        { desc = '[O]pen [O]Term', noremap = true }
-    )
-
-    keyset(
-        t,
-        '<esc>',
-        [[<C-\><C-n>]],
-        { desc = 'Exit Terminal', noremap = true }
-    )
-end
-
 function M.mini_sessions()
     local write_as_cwd = function()
         local cwd = vim.fn.getcwd()
