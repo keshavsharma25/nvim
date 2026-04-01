@@ -5,14 +5,17 @@ return {
         require('which-key').setup()
 
         require('which-key').add({
+            { '<leader>c', group = 'Color Column | Rename current file' },
+            { '<leader>a', group = 'Harpoon: [A]dd to [l]ist' },
+            { '<leader>h', group = 'Harpoon: Traverse&Explore' },
+            { '<leader>x', group = 'Harpoon: Replace' },
             { '<leader>l', group = 'LSP' },
-            { '<leader>s', group = 'Telescope' },
+            { '<leader>s', group = 'Picker' },
             { '<leader>t', group = 'Trouble' },
-            { '<leader>g', group = 'LazyGit' },
-            { '<leader>h', group = 'harpoon: Add&Explore' },
-            { '<leader>x', group = 'harpoon: Replace' },
+            { '<leader>b', group = 'Buffer' },
+            { '<leader>g', group = 'Git Browse' },
             { '<leader>w', group = 'Mini.Sessions' },
-            { '<leader>o', group = 'Out[l]ine and [O]Term' },
+            { '<leader>o', group = 'Outline' },
         })
     end,
 }

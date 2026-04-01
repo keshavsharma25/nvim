@@ -95,10 +95,9 @@ function M.snacks()
         picker.files({ cwd = vim.fn.stdpath('config') })
     end, { desc = '[S]earch [N]eovim files' })
 
-    -- Terminal mapping (ported directly over as requested)
-    keyset(n, '<leader>oo', function()
+    keyset(n, '<leader>so', function()
         snacks.terminal()
-    end, { desc = '[O]pen [O]Term', noremap = true })
+    end, { desc = '[O]Term', noremap = true })
     keyset(
         t,
         '<esc>',
@@ -131,7 +130,7 @@ function M.snacks()
     keyset({ 'n', 'v' }, '<leader>gB', function()
         snacks.gitbrowse()
     end, { desc = 'Git Browse' })
-    keyset(n, '<leader>gg', function()
+    keyset(n, '<leader>sl', function()
         snacks.lazygit()
     end, { desc = 'Lazygit' })
     keyset(n, '<leader>un', function()
