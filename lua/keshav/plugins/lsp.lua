@@ -43,6 +43,7 @@ return {
                 'pyright',
                 'biome',
                 'ts_ls',
+                'jsonls',
                 'taplo',
                 'gopls',
                 'marksman',
@@ -84,13 +85,29 @@ return {
                 },
             })
 
+            vim.lsp.config('jsonls', {
+                settings = {
+                    json = {
+                        schemas = require('schemastore').json.schemas(),
+                        validate = { enable = true },
+                    },
+                },
+            })
+
             -- yamlls related config
             vim.lsp.config('yamlls', {
                 settings = {
                     yaml = {
-                        schemas = {
-                            ['https://squidfunk.github.io/mkdocs-material/schema.json'] = 'mkdocs.yml',
+                        schemaStore = {
+                            -- You must disable built-in schemaStore support if you want to use
+                            -- this plugin and its advanced options like `ignore`.
+                            enable = false,
+                            -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+                            url = '',
                         },
+                        schemas = vim.tbl_extend('force', {
+                            ['https://squidfunk.github.io/mkdocs-material/schema.json'] = 'mkdocs.yml',
+                        }, require('schemastore').yaml.schemas()),
                         validate = true,
                     },
                 },
@@ -297,9 +314,9 @@ return {
             })
 
             -- Optionally setup conform if needed globally
-            conform.setup({
-                -- Add global formatters if necessary
-            })
+            -- conform.setup({
+            --     -- Add global formatters if necessary
+            -- })
         end,
     },
 }

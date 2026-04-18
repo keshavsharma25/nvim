@@ -14,10 +14,12 @@ return {
     },
     opts = {
         notify_on_error = true,
-        format_on_save = {
-            timeout_ms = 500,
-            lsp_fallback = true,
-        },
+        format_on_save = function(bufnr)
+            return {
+                timeout_ms = 2000,
+                lsp_fallback = true,
+            }
+        end,
         formatters_by_ft = {
             lua = { 'stylua' },
             go = { 'goimports', 'gofmt' },
@@ -26,13 +28,18 @@ return {
             javascript = { 'biome', 'prettierd', stop_after_first = true },
             typescript = { 'biome', 'prettierd', stop_after_first = true },
             typescriptreact = { 'prettierd', 'biome', stop_after_first = true },
-            json = { 'biome' },
+            json = { 'biome', 'prettierd', stop_after_first = true },
+            jsonc = { 'biome', 'prettierd', stop_after_first = true },
             markdown = { 'markdownlint' },
             yaml = { 'prettierd' },
             ['*'] = { 'trim_whitespace' },
         },
-        format_after_save = {
-            lsp_format = 'fallback',
+        formatters = {
+            biome = {
+                require_cwd = true,
+                args = { 'format', '--stdin-file-path', '$FILENAME' },
+                exit_codes = { 0, 1 },
+            },
         },
     },
     config = function(_, opts)
