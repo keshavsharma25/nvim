@@ -22,6 +22,7 @@ return {
                 end,
             },
             'hrsh7th/cmp-nvim-lsp',
+            'hrsh7th/cmp-cmdline',
             'saadparwaiz1/cmp_luasnip',
             'L3MON4D3/LuaSnip',
             'j-hui/fidget.nvim',
@@ -313,10 +314,26 @@ return {
                 },
             })
 
-            -- Optionally setup conform if needed globally
-            -- conform.setup({
-            --     -- Add global formatters if necessary
-            -- })
+            cmp.setup.cmdline(':', {
+                mapping = cmp.mapping.preset.cmdline({
+                    ['<CR>'] = {
+                        c = function(fallback)
+                            -- If the menu is visible AND you explicitly highlighted an entry, accept it
+                            if cmp.visible() and cmp.get_active_entry() then
+                                cmp.confirm({ select = false })
+                            else
+                                -- Otherwise, let Neovim execute exactly what you typed
+                                fallback()
+                            end
+                        end,
+                    },
+                }),
+                sources = cmp.config.sources({
+                    { name = 'path' },
+                }, {
+                    { name = 'cmdline' },
+                }),
+            })
         end,
     },
 }
