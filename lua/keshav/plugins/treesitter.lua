@@ -1,47 +1,48 @@
 return {
-    'nvim-treesitter/nvim-treesitter',
-    branch = 'main',
-    lazy = false,
-    build = ':TSUpdate',
-    config = function()
-        local config = require('nvim-treesitter.config')
+    {
+        'nvim-treesitter/nvim-treesitter',
+        branch = 'main',
+        build = ':TSUpdate',
+        dependencies = { 'nvim-treesitter/nvim-treesitter-textobjects' },
+        event = { 'BufReadPre', 'BufNewFile' },
+        config = function()
+            local config = require('nvim-treesitter.config')
 
-        config.setup({
-            modules = {},
-            ignore_install = {},
-            ensure_installed = {
-                'bash',
-                'c',
-                'comment',
-                'go',
-                'javascript',
-                'jsdoc',
-                'lua',
-                'python',
-                'rust',
-                'solidity',
-                'sway',
-                'typescript',
-                'vimdoc',
-                'html',
-                'latex',
-                'typst',
-                'yaml',
-                'markdown',
-                'markdown_inline',
-            },
-            install_dir = vim.fn.stdpath('data'),
-            sync_install = false, -- Set to true if you want it to block during install
-            auto_install = true, -- Automatically install missing parsers when entering buffer
-
-            highlight = {
-                enable = true,
-                additional_vim_regex_highlighting = { 'markdown' },
-            },
-
-            indent = {
-                enable = true,
-            },
-        })
-    end,
+            config.setup({
+                modules = {},
+                ignore_install = {},
+                ensure_installed = {
+                    'bash',
+                    'c',
+                    'comment',
+                    'go',
+                    'javascript',
+                    'jsdoc',
+                    'lua',
+                    'python',
+                    'rust',
+                    'solidity',
+                    'sway',
+                    'typescript',
+                    'vimdoc',
+                    'html',
+                    'latex',
+                    'typst',
+                    'yaml',
+                    'markdown',
+                    'markdown_inline',
+                },
+                install_dir = vim.fn.stdpath('data'),
+                sync_install = false, -- Set to true if you want it to block during install
+                auto_install = true, -- Automatically install missing parsers when entering buffer
+                highlight = {
+                    enable = true,
+                    additional_vim_regex_highlighting = { 'markdown' },
+                },
+                indent = {
+                    enable = true,
+                },
+            })
+        end,
+    },
 }

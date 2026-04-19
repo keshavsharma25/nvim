@@ -53,3 +53,5 @@ if vim.fn.has('wsl') == 1 then
         cache_enabled = 0,
     }
 end
+
+vim.g.no_plugin_maps = true

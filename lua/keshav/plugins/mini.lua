@@ -4,7 +4,28 @@ return {
     lazy = false,
     config = function()
         -- mini.ai
-        require('mini.ai').setup({ n_lines = 500 })
+        local ai = require('mini.ai')
+
+        ai.setup({
+            n_lines = 500,
+            custom_textobjects = {
+                -- Mapping 'f' to functions
+                f = ai.gen_spec.treesitter({
+                    a = '@function.outer',
+                    i = '@function.inner',
+                }),
+                -- Mapping 'a' to arguments/parameters
+                a = ai.gen_spec.treesitter({
+                    a = '@parameter.outer',
+                    i = '@parameter.inner',
+                }),
+                -- Mapping 'c' to classes
+                c = ai.gen_spec.treesitter({
+                    a = '@class.outer',
+                    i = '@class.inner',
+                }),
+            },
+        })
 
         -- mini.surround
         require('mini.surround').setup({})
