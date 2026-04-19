@@ -9,7 +9,7 @@ return {
             { '<leader>a', group = 'Harpoon: [A]dd to [l]ist' },
             { '<leader>h', group = 'Harpoon: Traverse&Explore' },
             { '<leader>x', group = 'Harpoon: Replace' },
-            { '<leader>d', group = 'Dismiss All Notifications' },
+            { '<leader>d', group = 'Debugger' },
             { '<leader>l', group = 'LSP' },
             { '<leader>s', group = 'Picker' },
             { '<leader>t', group = 'Trouble' },

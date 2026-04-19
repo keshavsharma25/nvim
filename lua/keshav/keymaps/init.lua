@@ -118,7 +118,7 @@ function M.snacks()
     keyset(n, '<leader>S', function()
         snacks.scratch.select()
     end, { desc = 'Select Scratch Buffer' })
-    keyset(n, '<leader>ns', function()
+    keyset(n, '<leader>se', function()
         snacks.notifier.show_history()
     end, { desc = '[N]otification History: [S]how' })
     keyset(n, '<leader>bd', function()
@@ -133,7 +133,7 @@ function M.snacks()
     keyset(n, '<leader>sl', function()
         snacks.lazygit()
     end, { desc = 'Lazygit' })
-    keyset(n, '<leader>dn', function()
+    keyset(n, '<leader>sq', function()
         snacks.notifier.hide()
     end, { desc = 'Dismiss All Notifications' })
     keyset(n, '<c-/>', function()
@@ -327,6 +327,118 @@ function M.mini_sessions()
     vim.keymap.set('n', '<Leader>wl', function()
         require('mini.sessions').select()
     end, { desc = '(W) [L]oad session' })
+end
+
+function M.dap()
+    local dap = require('dap')
+    local dapui = require('dapui')
+    local opts = { noremap = true, silent = true }
+
+    -- 1. Starting and Stopping
+    keyset(
+        'n',
+        '<leader>dc',
+        dap.continue,
+        vim.tbl_extend('force', opts, { desc = 'DAP: [C]ontinue / Start' })
+    )
+    keyset(
+        'n',
+        '<leader>dt',
+        dap.terminate,
+        vim.tbl_extend('force', opts, { desc = 'DAP: [T]erminate (Stop)' })
+    )
+    keyset(
+        'n',
+        '<leader>dp',
+        dap.pause,
+        vim.tbl_extend('force', opts, { desc = 'DAP: [P]ause' })
+    )
+    keyset(
+        'n',
+        '<leader>dR',
+        dap.restart,
+        vim.tbl_extend('force', opts, { desc = 'DAP: [R]estart' })
+    )
+
+    -- 2. Stepping (Moving through code)
+    keyset(
+        'n',
+        '<leader>dn',
+        dap.step_over,
+        vim.tbl_extend('force', opts, { desc = 'DAP: Step [N]ext (Over)' })
+    )
+    keyset(
+        'n',
+        '<leader>di',
+        dap.step_into,
+        vim.tbl_extend('force', opts, { desc = 'DAP: Step [I]nto' })
+    )
+    keyset(
+        'n',
+        '<leader>do',
+        dap.step_out,
+        vim.tbl_extend('force', opts, { desc = 'DAP: Step [O]ut' })
+    )
+
+    -- 3. Breakpoints
+    keyset(
+        'n',
+        '<leader>db',
+        dap.toggle_breakpoint,
+        vim.tbl_extend('force', opts, { desc = 'DAP: Toggle [B]reakpoint' })
+    )
+    keyset(
+        'n',
+        '<leader>dB',
+        function()
+            dap.set_breakpoint(vim.fn.input('Condition: '))
+        end,
+        vim.tbl_extend(
+            'force',
+            opts,
+            { desc = 'DAP: Conditional [B]reakpoint' }
+        )
+    )
+    keyset('n', '<leader>dl', function()
+        dap.set_breakpoint(nil, nil, vim.fn.input('Log Message: '))
+    end, vim.tbl_extend('force', opts, { desc = 'DAP: [L]ogpoint' }))
+
+    -- 4. UI & Inspection
+    keyset(
+        'n',
+        '<leader>du',
+        dapui.toggle,
+        vim.tbl_extend('force', opts, { desc = 'DAP: Toggle [U]I' })
+    )
+    keyset('n', '<leader>de', function()
+        dapui.eval(
+            nil,
+            { enter = true, context = 'hover', width = 40, height = 10 }
+        )
+    end, vim.tbl_extend('force', opts, { desc = 'DAP: [E]valuate word' }))
+    keyset(
+        'n',
+        '<leader>df',
+        function()
+            require('dap.ui.widgets').centered_float(
+                require('dap.ui.widgets').scopes
+            )
+        end,
+        vim.tbl_extend(
+            'force',
+            opts,
+            { desc = 'DAP: [F]loat Scopes (View Vars)' }
+        )
+    )
+
+    -- 5. Rust Specific (Since you are using rustaceanvim)
+    keyset('n', '<leader>dd', function()
+        vim.cmd.RustLsp('debug')
+    end, vim.tbl_extend(
+        'force',
+        opts,
+        { desc = 'DAP: [D]ebug Rust Project' }
+    ))
 end
 
 return M
