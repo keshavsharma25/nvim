@@ -19,6 +19,9 @@ return {
             },
             tools = {
                 auto_set_html_theme = false,
+                float_win_config = {
+                    border = 'rounded',
+                },
             },
             dap = {
                 adapter = {
@@ -33,3 +36,4 @@ return {
         }
     end,
 }
+

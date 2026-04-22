@@ -30,5 +30,6 @@ return {
         }
 
         nordic.load(options)
+        vim.api.nvim_set_hl(0, 'WhiteHoverBorder', { fg = '#FFFFFF' })
     end,
 }

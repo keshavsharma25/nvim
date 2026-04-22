@@ -7,6 +7,15 @@ return {
     },
     config = function()
         require('noice').setup({
+            routes = {
+                {
+                    filter = {
+                        event = 'notify',
+                        find = 'No information available',
+                    },
+                    opts = { skip = true },
+                },
+            },
             lsp = {
                 override = {
                     ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
@@ -14,12 +23,26 @@ return {
                     ['cmp.entry.get_documentation'] = true,
                 },
             },
-            -- you can enable a preset for easier configuration
             presets = {
-                bottom_search = false, -- use a classic bottom cmdline for search
-                command_palette = false, -- position the cmdline and popupmenu together
-                long_message_to_split = false, -- long messages will be sent to a split
-                lsp_doc_border = true, -- add a border to hover docs and signature help
+                bottom_search = true,
+                command_palette = false,
+                long_message_to_split = false,
+                lsp_doc_border = true,
+            },
+            views = {
+                hover = {
+                    size = { max_width = math.floor(vim.o.columns * 0.8) },
+                    position = { row = 2, col = 0 },
+                    border = {
+                        style = 'rounded',
+                        padding = { 0, 1 },
+                    },
+                    win_options = {
+                        winhighlight = { FloatBorder = 'WhiteHoverBorder' },
+                        wrap = true,
+                        linebreak = true,
+                    },
+                },
             },
             cmdline = {
                 enabled = true,
