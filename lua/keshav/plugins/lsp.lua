@@ -224,7 +224,12 @@ return {
 
                     -- Enable inlay hints if supported
                     if cl.server_capabilities.inlayHintProvider then
-                        vim.lsp.inlay_hint.enable(true)
+                        if vim.bo[args.buf].buftype ~= 'nofile' then
+                            vim.lsp.inlay_hint.enable(
+                                true,
+                                { bufnr = args.buf }
+                            )
+                        end
                     end
 
                     lsp_keymaps.lsp(args)
@@ -287,6 +292,13 @@ return {
             local cmp = require('cmp')
 
             cmp.setup({
+                preselect = cmp.PreselectMode.None,
+                completion = {
+                    completeopt = 'menu,menuone,noinsert',
+                },
+                experimental = {
+                    ghost_text = true,
+                },
                 snippet = {
                     expand = function(args)
                         luasnip.lsp_expand(args.body)
