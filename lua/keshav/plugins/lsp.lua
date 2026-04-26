@@ -224,7 +224,11 @@ return {
 
                     -- Enable inlay hints if supported
                     if cl.server_capabilities.inlayHintProvider then
-                        if vim.bo[args.buf].buftype ~= 'nofile' then
+                        if
+                            not vim.lsp.inlay_hint.is_enabled({
+                                bufnr = args.buf,
+                            })
+                        then
                             vim.lsp.inlay_hint.enable(
                                 true,
                                 { bufnr = args.buf }
