@@ -334,13 +334,19 @@ return {
                 mapping = cmp.mapping.preset.cmdline({
                     ['<CR>'] = {
                         c = function(fallback)
-                            -- If the menu is visible AND you explicitly highlighted an entry, accept it
                             if cmp.visible() and cmp.get_active_entry() then
                                 cmp.confirm({ select = false })
                             else
-                                -- Otherwise, let Neovim execute exactly what you typed
                                 fallback()
                             end
+                        end,
+                    },
+                    ['<Space>'] = {
+                        c = function(fallback)
+                            if cmp.visible() then
+                                cmp.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace })
+                            end
+                            fallback()
                         end,
                     },
                 }),
