@@ -6,24 +6,37 @@ return {
         -- mini.ai
         local ai = require('mini.ai')
 
+        -- Ensure parser is parsed before treesitter textobject queries
+        local function with_parse(spec)
+            return function(ai_type, ai_context, _)
+                local ok, parser = pcall(
+                    vim.treesitter.get_parser,
+                    vim.api.nvim_get_current_buf(),
+                    nil,
+                    { error = false }
+                )
+                if ok and parser then
+                    parser:parse()
+                end
+                return spec(ai_type, ai_context, _)
+            end
+        end
+
         ai.setup({
             n_lines = 500,
             custom_textobjects = {
-                -- Mapping 'f' to functions
-                f = ai.gen_spec.treesitter({
+                f = with_parse(ai.gen_spec.treesitter({
                     a = '@function.outer',
                     i = '@function.inner',
-                }),
-                -- Mapping 'a' to arguments/parameters
-                a = ai.gen_spec.treesitter({
+                })),
+                a = with_parse(ai.gen_spec.treesitter({
                     a = '@parameter.outer',
                     i = '@parameter.inner',
-                }),
-                -- Mapping 'c' to classes
-                c = ai.gen_spec.treesitter({
+                })),
+                c = with_parse(ai.gen_spec.treesitter({
                     a = '@class.outer',
                     i = '@class.inner',
-                }),
+                })),
             },
         })
 

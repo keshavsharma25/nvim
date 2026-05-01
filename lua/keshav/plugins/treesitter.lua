@@ -33,16 +33,36 @@ return {
                     'markdown_inline',
                 },
                 install_dir = vim.fn.stdpath('data'),
-                sync_install = false, -- Set to true if you want it to block during install
-                auto_install = true, -- Automatically install missing parsers when entering buffer
-                highlight = {
-                    enable = true,
-                    additional_vim_regex_highlighting = { 'markdown' },
-                },
+                sync_install = false,
+                auto_install = true,
                 indent = {
                     enable = true,
                 },
             })
+
+            -- nvim-treesitter main branch removed the highlight module.
+            -- Use Neovim built-in treesitter highlighting and force parse.
+            vim.api.nvim_create_autocmd(
+                { 'BufRead', 'BufNewFile', 'BufWinEnter' },
+                {
+                    callback = function(args)
+                        local ft = vim.bo[args.buf].filetype
+                        if ft and ft ~= '' then
+                            pcall(vim.treesitter.start, ft, args.buf)
+                            -- Parse synchronously so trees are immediately available
+                            local ok, parser = pcall(
+                                vim.treesitter.get_parser,
+                                args.buf,
+                                ft,
+                                { error = false }
+                            )
+                            if ok and parser then
+                                pcall(parser.parse, parser)
+                            end
+                        end
+                    end,
+                }
+            )
         end,
     },
 }
