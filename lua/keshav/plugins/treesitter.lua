@@ -22,7 +22,6 @@ return {
                     'python',
                     'rust',
                     'solidity',
-                    'sway',
                     'typescript',
                     'vimdoc',
                     'html',
