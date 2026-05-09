@@ -31,6 +31,7 @@ return {
             json = { 'biome', 'prettierd', stop_after_first = true },
             jsonc = { 'biome', 'prettierd', stop_after_first = true },
             markdown = { 'markdownlint' },
+            toml = { 'taplo' },
             yaml = { 'prettierd' },
             ['*'] = { 'trim_whitespace' },
         },

@@ -1,18 +1,14 @@
 return {
     'saecki/crates.nvim',
-    tag = 'stable',
-    ft = { 'toml' },
+    event = { 'BufRead Cargo.toml' },
     config = function()
         require('crates').setup({
-            completion = {
-                cmp = {
-                    enabled = true,
-                },
+            lsp = {
+                enabled = true,
+                actions = true,
+                completion = true,
+                hover = true,
             },
-        })
-
-        require('cmp').setup.buffer({
-            sources = { { name = 'crates' } },
         })
     end,
 }

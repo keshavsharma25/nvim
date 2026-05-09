@@ -23,6 +23,8 @@ return {
             },
             'hrsh7th/cmp-nvim-lsp',
             'hrsh7th/cmp-cmdline',
+            'hrsh7th/cmp-buffer',
+            'hrsh7th/cmp-path',
             'saadparwaiz1/cmp_luasnip',
             'L3MON4D3/LuaSnip',
             'j-hui/fidget.nvim',
@@ -45,7 +47,6 @@ return {
                 'biome',
                 'ts_ls',
                 'jsonls',
-                'taplo',
                 'gopls',
                 'marksman',
                 'yamlls',
@@ -63,6 +64,10 @@ return {
 
             require('mason').setup({
                 ensure_installed = fmters,
+            })
+
+            require('mason-lspconfig').setup({
+                ensure_installed = servers,
             })
 
             vim.lsp.config('*', {
@@ -160,11 +165,10 @@ return {
                 },
             })
 
-            require('mason-lspconfig').setup({
-                ensure_installed = servers,
-            })
+            vim.lsp.config('taplo', {})
 
             vim.lsp.enable(servers)
+            vim.lsp.enable('taplo')
 
             local function setup_python(client)
                 -- Configure Python specific settings
@@ -325,8 +329,23 @@ return {
                     ['<C-Space>'] = cmp.mapping.complete({}),
                 },
                 sources = {
+                    { name = 'path' },
                     { name = 'nvim_lsp' },
                     { name = 'luasnip' },
+                    { name = 'buffer', keyword_length = 3 },
+                },
+                formatting = {
+                    format = function(entry, vim_item)
+                        -- This assigns a visible tag to each source in the menu
+                        vim_item.menu = ({
+                            nvim_lsp = '[LSP]',
+                            crates = '[Crates]',
+                            buffer = '[Buffer]',
+                            path = '[Path]',
+                            luasnip = '[Snippet]',
+                        })[entry.source.name]
+                        return vim_item
+                    end,
                 },
             })
 
@@ -344,7 +363,10 @@ return {
                     ['<Space>'] = {
                         c = function(fallback)
                             if cmp.visible() then
-                                cmp.confirm({ select = true, behavior = cmp.ConfirmBehavior.Replace })
+                                cmp.confirm({
+                                    select = true,
+                                    behavior = cmp.ConfirmBehavior.Replace,
+                                })
                             end
                             fallback()
                         end,

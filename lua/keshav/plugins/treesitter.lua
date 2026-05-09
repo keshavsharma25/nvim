@@ -28,6 +28,7 @@ return {
                     'html',
                     'latex',
                     'typst',
+                    'toml',
                     'yaml',
                     'markdown',
                     'markdown_inline',
