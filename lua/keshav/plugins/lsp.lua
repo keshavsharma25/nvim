@@ -40,7 +40,6 @@ return {
                 vim.api.nvim_create_augroup('LspConfig', { clear = true })
 
             local servers = {
-                'clangd',
                 'lua_ls',
                 'ruff',
                 'pyright',
@@ -172,8 +171,27 @@ return {
                 capabilities = capabilities,
             })
 
+            vim.lsp.config('clangd', {
+                cmd = {
+                    'clangd',
+                    '--background-index',
+                    '--clang-tidy',
+                    '--header-insertion=iwyu',
+                    '--completion-style=detailed',
+                    '--function-arg-placeholders',
+                    '--fallback-style=llvm',
+                },
+                init_options = {
+                    usePlaceholders = true,
+                    completeUnimported = true,
+                    clangdFileStatus = true,
+                },
+                capabilities = capabilities,
+            })
+
             vim.lsp.enable(servers)
             vim.lsp.enable('taplo')
+            vim.lsp.enable('clangd')
 
             local function setup_python(client)
                 -- Configure Python specific settings
@@ -351,6 +369,21 @@ return {
                         })[entry.source.name]
                         return vim_item
                     end,
+                },
+                sorting = {
+                    priority_weight = 5,
+                    comparators = {
+                        cmp.config.compare.offset,
+                        cmp.config.compare.exact,
+                        cmp.config.compare.recently_used,
+                        require('clangd_extensions.cmp_scores'), -- Clangd specific scoring
+                        cmp.config.compare.score,
+                        cmp.config.compare.locality,
+                        cmp.config.compare.kind,
+                        cmp.config.compare.sort_text,
+                        cmp.config.compare.length,
+                        cmp.config.compare.order,
+                    },
                 },
             })
 

@@ -21,6 +21,7 @@ return {
             }
         end,
         formatters_by_ft = {
+            c = { 'clang_format' },
             lua = { 'stylua' },
             go = { 'goimports', 'gofmt' },
             rust = { 'rustfmt', lsp_format = 'fallback' },
