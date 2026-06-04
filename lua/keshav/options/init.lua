@@ -8,8 +8,6 @@ vim.opt.mouse = 'a'
 
 vim.opt.showmode = true
 
-vim.opt.clipboard = 'unnamedplus'
-
 vim.opt.breakindent = true
 
 vim.opt.undofile = true
@@ -41,14 +39,14 @@ vim.g.swapfile = false
 
 if vim.fn.has('wsl') == 1 then
     vim.g.clipboard = {
-        name = 'win32yank-wsl',
+        name = 'WslClipboard',
         copy = {
-            ['+'] = 'win32yank.exe -i --crlf',
-            ['*'] = 'win32yank.exe -i --crlf',
+            ['+'] = 'clip.exe',
+            ['*'] = 'clip.exe',
         },
         paste = {
-            ['+'] = 'win32yank.exe -o --lf',
-            ['*'] = 'win32yank.exe -o --lf',
+            ['+'] = 'powershell.exe -NoProfile -Command [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+            ['*'] = 'powershell.exe -NoProfile -Command [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
         },
         cache_enabled = 0,
     }
