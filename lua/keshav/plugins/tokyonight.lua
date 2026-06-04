@@ -1,7 +1,7 @@
 return {
     'folke/tokyonight.nvim',
-    lazy = true,
-    -- priority = 1000,
+    lazy = false,
+    priority = 1000,
     config = function()
         require('tokyonight').setup({
             style = 'moon',
@@ -21,6 +21,8 @@ return {
             hide_inactive_statusline = false,
             dim_inactive = false,
             lualine_bold = false,
+            on_colors = function(colors) end,
+            on_highlights = function(highlights, colors) end,
         })
 
         vim.cmd.hi('Comment gui=none')
