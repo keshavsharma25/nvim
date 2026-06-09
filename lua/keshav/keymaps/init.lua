@@ -23,7 +23,7 @@ function M.init()
     -- Diagnostic keysets
 
     -- Go to Parent Dir
-    keyset(n, '-', '<CMD>:Explore<CR>', { desc = 'Go to Parent Directory' })
+    keyset(n, '-', '<CMD>Oil<CR>', { desc = 'Go to Parent Directory' })
 
     keyset(n, '<leader>cc', function()
         -- Check if the column is currently set to 80
