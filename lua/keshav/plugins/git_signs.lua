@@ -10,5 +10,9 @@ return {
             topdelete = { text = '‾' },
             changedelete = { text = '~' },
         },
+        signcolumn = true,
+        numhl = false,
+        linehl = false,
+        word_diff = false,
     },
 }
