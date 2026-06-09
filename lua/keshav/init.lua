@@ -54,8 +54,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end,
 })
 
-vim.api.nvim_create_autocmd('VimEnter', {
-    callback = function()
-        vim.opt.clipboard = 'unnamedplus'
-    end,
-})
+vim.schedule(function()
+    vim.opt.clipboard = 'unnamedplus'
+end)
