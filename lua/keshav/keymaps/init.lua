@@ -40,29 +40,37 @@ end
 function M.snacks()
     local picker = require('snacks.picker')
     local snacks = require('snacks')
+    local fff = require('fff')
 
     -- Picker bindings
     keyset(n, '<leader>sh', picker.help, { desc = '[S]earch [H]elp' })
+
     keyset(n, '<leader>sk', picker.keymaps, { desc = '[S]earch [K]eymaps' })
-    keyset(n, '<leader>sf', picker.files, { desc = '[S]earch [F]iles' })
+
+    keyset(n, '<leader>sf', function()
+        fff.find_files()
+    end, { desc = '[S]earch [F]iles' })
+
     keyset(n, '<leader>si', picker.git_files, { desc = '[S]earch [I]n Git' })
+
     keyset(
         n,
         '<leader>ss',
         picker.pickers,
         { desc = '[S]earch [S]elect Picker' }
     )
-    keyset(
-        n,
-        '<leader>sw',
-        picker.grep_word,
-        { desc = '[S]earch current [W]ord' }
-    )
+
+    keyset(n, '<leader>sw', function()
+        fff.live_grep({ query = vim.fn.expand('<cword>') })
+    end, { desc = '[S]earch current [W]ord' })
+
     keyset(n, '<leader>sW', function()
         local word = vim.fn.expand('<cWORD>')
-        picker.grep({ search = word })
+        fff.live_grep({ query = word })
     end, { desc = '[S]earch current [W]ord(no spaces)' })
+
     keyset(n, '<leader>sg', picker.grep, { desc = '[S]earch by [G]rep' })
+
     keyset(
         n,
         '<leader>sd',
@@ -92,7 +100,7 @@ function M.snacks()
     end, { desc = '[S]earch [/] in Open Files' })
 
     keyset(n, '<leader>sn', function()
-        picker.files({ cwd = vim.fn.stdpath('config') })
+        fff.find_files({ cwd = vim.fn.stdpath('config') })
     end, { desc = '[S]earch [N]eovim files' })
 
     keyset(n, '<leader>so', function()
