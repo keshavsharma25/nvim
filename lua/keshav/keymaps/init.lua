@@ -69,7 +69,7 @@ function M.snacks()
         fff.live_grep({ query = word })
     end, { desc = '[S]earch current [W]ord(no spaces)' })
 
-    keyset(n, '<leader>sg', picker.grep, { desc = '[S]earch by [G]rep' })
+    keyset(n, '<leader>sg', fff.live_grep, { desc = '[S]earch by [G]rep' })
 
     keyset(
         n,
