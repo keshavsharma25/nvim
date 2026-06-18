@@ -31,6 +31,7 @@ return {
                     'yaml',
                     'markdown',
                     'markdown_inline',
+                    'nim',
                 },
                 install_dir = vim.fn.stdpath('data'),
                 sync_install = false,
@@ -45,20 +46,21 @@ return {
             vim.api.nvim_create_autocmd(
                 { 'BufRead', 'BufNewFile', 'BufWinEnter' },
                 {
+                    group = vim.api.nvim_create_augroup(
+                        'TS_Highlight_Fallback',
+                        { clear = true }
+                    ),
                     callback = function(args)
-                        local ft = vim.bo[args.buf].filetype
+                        local buf = args.buf
+                        local ft = vim.bo[buf].filetype
+
                         if ft and ft ~= '' then
-                            pcall(vim.treesitter.start, ft, args.buf)
-                            -- Parse synchronously so trees are immediately available
-                            local ok, parser = pcall(
-                                vim.treesitter.get_parser,
-                                args.buf,
-                                ft,
-                                { error = false }
-                            )
-                            if ok and parser then
-                                pcall(parser.parse, parser)
-                            end
+                            -- Safely map the filetype to the treesitter language name
+                            local lang = vim.treesitter.language.get_lang(ft)
+                                or ft
+
+                            -- Correct argument order: buffer number, then language
+                            pcall(vim.treesitter.start, buf, lang)
                         end
                     end,
                 }
