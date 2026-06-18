@@ -449,4 +449,46 @@ function M.dap()
     ))
 end
 
+function M.show_curr_file_path()
+    function current_file_path()
+        local filepath = vim.fn.expand('%')
+        local notif_title = 'Current File'
+
+        if filepath == '' then
+            vim.notify(
+                'No file currently open in buffer',
+                vim.log.levels.WARN,
+                { title = 'File Path' }
+            )
+            return
+        end
+
+        if filepath:match('^oil://') then
+            notif_title = 'Current Folder'
+
+            local raw_path = filepath:gsub('^oil://', '')
+
+            filepath = vim.fn.fnamemodify(raw_path, ':.')
+            if filepath == '' then
+                filepath = '.'
+            end
+        end
+
+        -- also copy the path to your system clipboard
+        vim.fn.setreg('+', filepath)
+
+        vim.notify(filepath, vim.log.levels.INFO, {
+            title = notif_title,
+            timeout = 6000, -- Optional: dismiss after 3 seconds
+        })
+    end
+
+    keyset(
+        n,
+        '<leader>sp',
+        current_file_path,
+        { desc = '[S]how Current File [P]ath' }
+    )
+end
+
 return M

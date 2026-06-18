@@ -12,6 +12,7 @@ end
 K.init()
 K.preventMs()
 K.markdown()
+K.show_curr_file_path()
 
 local keshavGroup = vim.api.nvim_create_augroup('Keshav', { clear = true })
 
