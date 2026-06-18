@@ -1,5 +1,5 @@
 vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
+vim.g.maplocalleader = '  '
 
 vim.opt.number = true
 vim.opt.relativenumber = true
@@ -38,6 +38,10 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
 vim.g.swapfile = false
+
+vim.opt.foldenable = true
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99
 
 if vim.fn.has('wsl') == 1 then
     vim.g.clipboard = {
