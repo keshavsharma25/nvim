@@ -34,7 +34,7 @@ function M.init()
             vim.wo.colorcolumn = '80'
             print('ColorColumn Enabled (80)')
         end
-    end, { desc = 'Toggle Color Column' })
+    end, { desc = 'Toggle [C]olor [C]olumn' })
 end
 
 function M.snacks()
@@ -311,9 +311,9 @@ end
 function M.cloak_toggle()
     keyset(
         n,
-        '<leader><leader>c',
+        '<leader>cl',
         '<CMD>CloakToggle<CR>',
-        { desc = '[C]loakToggle', noremap = true }
+        { desc = '[Cl]oakToggle', noremap = true }
     )
 end
 
