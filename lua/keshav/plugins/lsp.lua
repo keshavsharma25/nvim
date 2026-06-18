@@ -173,9 +173,32 @@ return {
                 capabilities = capabilities,
             })
 
+            vim.lsp.config('nim_langserver', {
+                filetypes = { 'nim' },
+                cmd = {
+                    '/usr/sbin/env',
+                    'NIMBUS_BUILD_SYSTEM=yes',
+                    '/home/keshav/.nimble/bin/nimlangserver',
+                },
+                root_markers = { 'config.nims', '.git', '.nimble' },
+                capabilities = capabilities,
+                settings = {
+                    nim = {
+                        nimsuggestPath = '/home/keshav/.nimble/bin/nimsuggest',
+                        timeout = 600000,
+                        autoCheckProject = true,
+                        autoCheckFile = true,
+                        nimsuggestTimeout = 600000,
+                        useNimCheck = false,
+                        maxNimsuggestProcesses = 10,
+                    },
+                },
+            })
+
             vim.lsp.enable(servers)
             vim.lsp.enable('taplo')
             vim.lsp.enable('clangd')
+            vim.lsp.enable('nim_langserver')
 
             local function setup_python(client)
                 -- Configure Python specific settings
