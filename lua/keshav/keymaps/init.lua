@@ -11,7 +11,7 @@ local M = {}
 
 function M.init()
     -- No higlight
-    keyset(n_v, '<leader>n', '<Cmd>noh<CR>', {
+    keyset(n_v, '<leader>n', '<CMD>noh<CR>', {
         desc = 'Remove [H]ighlights',
         noremap = allow_remap['noremap'],
         silent = allow_remap['silent'],
@@ -289,13 +289,13 @@ end
 
 function M.markdown()
     keyset(n, 'gk', function()
-        vim.cmd('silent! ?^##\\+\\s.*$')
-        vim.cmd('nohlsearch')
+        vim.CMD('silent! ?^##\\+\\s.*$')
+        vim.CMD('nohlsearch')
     end, { desc = 'Go to previous Header' })
 
     keyset(n, 'gj', function()
-        vim.cmd('silent! /^##\\+\\s.*$')
-        vim.cmd('nohlsearch')
+        vim.CMD('silent! /^##\\+\\s.*$')
+        vim.CMD('nohlsearch')
     end, { desc = 'Go to next Header' })
 end
 
@@ -441,7 +441,7 @@ function M.dap()
 
     -- 5. Rust Specific (Since you are using rustaceanvim)
     keyset('n', '<leader>dd', function()
-        vim.cmd.RustLsp('debug')
+        vim.CMD.RustLsp('debug')
     end, vim.tbl_extend(
         'force',
         opts,
@@ -450,7 +450,7 @@ function M.dap()
 end
 
 function M.show_curr_file_path()
-    function current_file_path()
+    function curr_file_path()
         local filepath = vim.fn.expand('%')
         local notif_title = 'Current File'
 
@@ -486,8 +486,47 @@ function M.show_curr_file_path()
     keyset(
         n,
         '<leader>sp',
-        current_file_path,
+        curr_file_path,
         { desc = '[S]how Current File [P]ath' }
+    )
+end
+
+function M.trouble()
+    keyset(
+        n,
+        '<leader>tt',
+        '<CMD>Trouble diagnostics toggle win.position=right win.size=0.4<CR>',
+        { desc = 'Diagnostics (Trouble)' }
+    )
+    keyset(
+        n,
+        '<leader>tT',
+        '<CMD>Trouble diagnostics toggle filter.buf=0 win.position=right win.size=0.4<CR>',
+        { desc = 'Buffer Diagnostics (Trouble)' }
+    )
+    keyset(
+        n,
+        '<leader>ts',
+        '<CMD>Trouble symbols toggle focus=false win.position=right win.size=0.4<CR>',
+        { desc = 'Symbols (Trouble)' }
+    )
+    keyset(
+        n,
+        '<leader>tl',
+        '<CMD>Trouble lsp toggle focus=false win.position=right win.size=0.4<CR>',
+        { desc = 'LSP Definitions / references / ... (Trouble)' }
+    )
+    keyset(
+        n,
+        '<leader>tL',
+        '<CMD>Trouble loclist toggle win.position=right win.size=0.4<CR>',
+        { desc = 'Location List (Trouble)' }
+    )
+    keyset(
+        n,
+        '<leader>tq',
+        '<CMD>Trouble qflist toggle win.position=right win.size=0.4<CR>',
+        { desc = 'Quickfix List (Trouble)' }
     )
 end
 
