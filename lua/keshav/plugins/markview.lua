@@ -4,4 +4,7 @@ return {
     preview = {
         icon_provider = 'devicons', -- "mini" or "devicons"
     },
+    config = function ()
+       require('keshav.keymaps').markview()
+    end
 }

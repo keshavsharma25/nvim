@@ -530,4 +530,13 @@ function M.trouble()
     )
 end
 
+function M.markview()
+   keyset(
+       n,
+       '<leader>mm',
+       '<CMD>Markview<CR>',
+       { desc = 'Toggle [M]arkview'}
+   )
+end
+
 return M
