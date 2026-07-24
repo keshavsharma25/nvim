@@ -12,6 +12,7 @@ return {
             { '<leader>d', group = 'Debugger' },
             { '<leader>l', group = 'LSP' },
             { '<leader>s', group = 'Picker' },
+            { '<leader>S', group = 'Scratchpad' },
             { '<leader>t', group = 'Trouble' },
             { '<leader>b', group = 'Buffer' },
             { '<leader>g', group = 'Git Browse' },
