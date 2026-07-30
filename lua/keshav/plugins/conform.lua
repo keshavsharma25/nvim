@@ -31,7 +31,7 @@ return {
             typescriptreact = { 'prettierd', 'biome', stop_after_first = true },
             json = { 'biome', 'prettierd', stop_after_first = true },
             jsonc = { 'biome', 'prettierd', stop_after_first = true },
-            markdown = { 'markdownlint' },
+            markdown = { 'prettierd' },
             toml = { 'taplo' },
             yaml = { 'prettierd' },
             ['*'] = { 'trim_whitespace' },
