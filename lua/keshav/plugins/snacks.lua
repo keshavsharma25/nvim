@@ -3,7 +3,13 @@ return {
     priority = 1000,
     lazy = false,
     opts = {
-        picker = { enabled = true },
+        picker = {
+            enabled = true,
+            sources = {
+                gh_issue = {},
+                gh_pr = {},
+            },
+        },
         zen = { enabled = true },
         scratch = { enabled = true },
         notifier = { enabled = true },
@@ -13,6 +19,9 @@ return {
         lazygit = { enabled = true },
         terminal = { enabled = true },
         words = { enabled = true },
+        gh = {
+            enabled = true,
+        },
     },
     config = function(_, opts)
         require('snacks').setup(opts)

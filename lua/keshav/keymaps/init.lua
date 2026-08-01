@@ -113,6 +113,23 @@ function M.snacks()
         { desc = 'Exit Terminal', noremap = true }
     )
 
+    -- gh related
+    keyset(n_v, '<leader>gB', function()
+        snacks.gitbrowse()
+    end, { desc = 'Git Browse' })
+    keyset(n_v, '<leader>gi', function()
+        snacks.picker.gh_issue()
+    end, { desc = 'GitHub Issues (open)' })
+    keyset(n_v, '<leader>gI', function()
+        Snacks.picker.gh_issue({ state = 'all' })
+    end, { desc = 'GitHub Issues (all)' })
+    keyset(n_v, '<leader>gp', function()
+        Snacks.picker.gh_pr()
+    end, { desc = 'GitHub Pull Requests (open)' })
+    keyset(n_v, '<leader>gP', function()
+        Snacks.picker.gh_pr({ state = 'all' })
+    end, { desc = 'GitHub Pull Requests (all)' })
+
     -- Rest of the requested Snacks integrations
     keyset(n, '<leader>z', function()
         snacks.zen()
@@ -135,9 +152,6 @@ function M.snacks()
     keyset(n, '<leader>cR', function()
         snacks.rename.rename_file()
     end, { desc = 'Rename File' })
-    keyset({ 'n', 'v' }, '<leader>gB', function()
-        snacks.gitbrowse()
-    end, { desc = 'Git Browse' })
     keyset(n, '<leader>sl', function()
         snacks.lazygit()
     end, { desc = 'Lazygit' })
@@ -150,10 +164,10 @@ function M.snacks()
     keyset(n, '<c-_>', function()
         snacks.terminal()
     end, { desc = 'which_key_ignore' })
-    keyset({ 'n', 't' }, ']]', function()
+    keyset(n_t, ']]', function()
         snacks.words.jump(vim.v.count1)
     end, { desc = 'Next Reference' })
-    keyset({ 'n', 't' }, '[[', function()
+    keyset(n_t, '[[', function()
         snacks.words.jump(-vim.v.count1)
     end, { desc = 'Prev Reference' })
 end
@@ -531,12 +545,7 @@ function M.trouble()
 end
 
 function M.markview()
-   keyset(
-       n,
-       '<leader>mm',
-       '<CMD>Markview<CR>',
-       { desc = 'Toggle [M]arkview'}
-   )
+    keyset(n, '<leader>mm', '<CMD>Markview<CR>', { desc = 'Toggle [M]arkview' })
 end
 
 return M
