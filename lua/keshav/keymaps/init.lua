@@ -11,7 +11,7 @@ local M = {}
 
 function M.init()
     -- No higlight
-    keyset(n_v, '<leader>n', '<CMD>noh<CR>', {
+    keyset(n_v, '<leader>n', '<cmd>noh<CR>', {
         desc = 'Remove [H]ighlights',
         noremap = allow_remap['noremap'],
         silent = allow_remap['silent'],
@@ -23,7 +23,7 @@ function M.init()
     -- Diagnostic keysets
 
     -- Go to Parent Dir
-    keyset(n, '-', '<CMD>Oil<CR>', { desc = 'Go to Parent Directory' })
+    keyset(n, '-', '<cmd>Oil<CR>', { desc = 'Go to Parent Directory' })
 
     keyset(n, '<leader>cc', function()
         -- Check if the column is currently set to 80
@@ -296,28 +296,31 @@ function M.mtoc()
     keyset(
         n,
         '<leader>mt',
-        '<CMD>:Mtoc<CR>',
+        '<cmd>:Mtoc<CR>',
         { desc = 'Markdown: Table of Contents' }
     )
 end
 
 function M.markdown()
-    keyset(n, 'gk', function()
-        vim.CMD('silent! ?^##\\+\\s.*$')
-        vim.CMD('nohlsearch')
-    end, { desc = 'Go to previous Header' })
-
-    keyset(n, 'gj', function()
-        vim.CMD('silent! /^##\\+\\s.*$')
-        vim.CMD('nohlsearch')
-    end, { desc = 'Go to next Header' })
+    keyset(
+        n,
+        'gk',
+        '<cmd>silent! ?^##\\+\\s.*$<CR><cmd>nohlsearch<CR>',
+        { desc = 'Go to previous Header' }
+    )
+    keyset(
+        n,
+        'gj',
+        '<cmd>silent! /^##\\+\\s.*$<CR><cmd>nohlsearch<CR>',
+        { desc = 'Go to next Header' }
+    )
 end
 
 function M.outline()
     keyset(
         n,
         '<leader>ol',
-        '<CMD>Outline<CR>',
+        '<cmd>Outline<CR>',
         { desc = '[O]ut[l]ine: Toggle', noremap = true }
     )
 end
@@ -326,7 +329,7 @@ function M.cloak_toggle()
     keyset(
         n,
         '<leader>cl',
-        '<CMD>CloakToggle<CR>',
+        '<cmd>CloakToggle<CR>',
         { desc = '[Cl]oakToggle', noremap = true }
     )
 end
@@ -455,7 +458,7 @@ function M.dap()
 
     -- 5. Rust Specific (Since you are using rustaceanvim)
     keyset('n', '<leader>dd', function()
-        vim.CMD.RustLsp('debug')
+        vim.cmd.RustLsp('debug')
     end, vim.tbl_extend(
         'force',
         opts,
@@ -509,43 +512,43 @@ function M.trouble()
     keyset(
         n,
         '<leader>tt',
-        '<CMD>Trouble diagnostics toggle win.position=right win.size=0.4<CR>',
+        '<cmd>Trouble diagnostics toggle win.position=right win.size=0.4<CR>',
         { desc = 'Diagnostics (Trouble)' }
     )
     keyset(
         n,
         '<leader>tT',
-        '<CMD>Trouble diagnostics toggle filter.buf=0 win.position=right win.size=0.4<CR>',
+        '<cmd>Trouble diagnostics toggle filter.buf=0 win.position=right win.size=0.4<CR>',
         { desc = 'Buffer Diagnostics (Trouble)' }
     )
     keyset(
         n,
         '<leader>ts',
-        '<CMD>Trouble symbols toggle focus=false win.position=right win.size=0.4<CR>',
+        '<cmd>Trouble symbols toggle focus=false win.position=right win.size=0.4<CR>',
         { desc = 'Symbols (Trouble)' }
     )
     keyset(
         n,
         '<leader>tl',
-        '<CMD>Trouble lsp toggle focus=false win.position=right win.size=0.4<CR>',
+        '<cmd>Trouble lsp toggle focus=false win.position=right win.size=0.4<CR>',
         { desc = 'LSP Definitions / references / ... (Trouble)' }
     )
     keyset(
         n,
         '<leader>tL',
-        '<CMD>Trouble loclist toggle win.position=right win.size=0.4<CR>',
+        '<cmd>Trouble loclist toggle win.position=right win.size=0.4<CR>',
         { desc = 'Location List (Trouble)' }
     )
     keyset(
         n,
         '<leader>tq',
-        '<CMD>Trouble qflist toggle win.position=right win.size=0.4<CR>',
+        '<cmd>Trouble qflist toggle win.position=right win.size=0.4<CR>',
         { desc = 'Quickfix List (Trouble)' }
     )
 end
 
 function M.markview()
-    keyset(n, '<leader>mm', '<CMD>Markview<CR>', { desc = 'Toggle [M]arkview' })
+    keyset(n, '<leader>mm', '<cmd>Markview<CR>', { desc = 'Toggle [M]arkview' })
 end
 
 return M
