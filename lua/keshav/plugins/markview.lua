@@ -1,10 +1,15 @@
 return {
     'OXY2DEV/markview.nvim',
     lazy = false,
-    preview = {
-        icon_provider = 'devicons', -- "mini" or "devicons"
+    opts = {
+        preview = {
+            icon_provider = 'devicons', -- "mini" or "devicons"
+            hybrid_modes = { 'n' },
+            linewise_hybrid_mode = true,
+        },
     },
-    config = function ()
-       require('keshav.keymaps').markview()
+    config = function (_, opts)
+        require('markview').setup(opts)
+        require('keshav.keymaps').markview()
     end
 }
