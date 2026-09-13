@@ -20,3 +20,135 @@
 main {
     background-color: #4a4b4d !important;
 }
+
+/* ------------------------------------------------------------------ */
+/* 4. Code fences: one cohesive dark surface                           */
+/*    (the plugin puts `.hljs` — and its light-theme colors — on the   */
+/*    <pre> itself, so everything here is re-declared for dark)        */
+/* ------------------------------------------------------------------ */
+:root {
+    --mkdp-pre-pad: 16px;
+    --mkdp-code-bg: #161b22;
+    --mkdp-code-border: #21262d;
+    --mkdp-code-fg: #e6edf3;
+    --mkdp-diff-del-bg: rgba(248, 81, 73, 0.15);
+    --mkdp-diff-del-bar: rgba(248, 81, 73, 0.55);
+    --mkdp-diff-add-bg: rgba(63, 185, 80, 0.15);
+    --mkdp-diff-add-bar: rgba(63, 185, 80, 0.55);
+}
+
+.markdown-body pre,
+.markdown-body pre.hljs {
+    padding: var(--mkdp-pre-pad) !important;
+    line-height: 1.6 !important;
+    color: var(--mkdp-code-fg) !important;
+    background-color: var(--mkdp-code-bg) !important;
+    background-image: none !important;
+    border: 1px solid var(--mkdp-code-border);
+    border-radius: 6px !important;
+}
+
+/* slim dark scrollbars for overflowing code */
+.markdown-body pre::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+}
+.markdown-body pre::-webkit-scrollbar-thumb {
+    background: #30363d;
+    border-radius: 8px;
+}
+.markdown-body pre::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* ------------------------------------------------------------------ */
+/* 5. Diff fences (`​```diff): GitHub-dark style rows                   */
+/*    Each added/deleted line is an inline <span>; promote it to a     */
+/*    full-width row that bleeds into the <pre> padding so the tint    */
+/*    reaches both edges of the block, while the text keeps its        */
+/*    original indentation.                                            */
+/* ------------------------------------------------------------------ */
+.markdown-body pre code span.hljs-addition,
+.markdown-body pre code span.hljs-deletion {
+    display: inline-block;
+    box-sizing: border-box;
+    width: max-content;                     /* cover long, scrolling lines fully */
+    min-width: calc(100% + 2 * var(--mkdp-pre-pad));
+    margin: 0 calc(-1 * var(--mkdp-pre-pad));
+    padding: 0 var(--mkdp-pre-pad);
+    border-radius: 0;
+}
+
+.markdown-body pre code span.hljs-deletion {
+    background-color: var(--mkdp-diff-del-bg) !important;  /* kill plugin's #fdd */
+    box-shadow: inset 3px 0 0 var(--mkdp-diff-del-bar);
+}
+
+.markdown-body pre code span.hljs-addition {
+    background-color: var(--mkdp-diff-add-bg) !important;  /* kill plugin's #dfd */
+    box-shadow: inset 3px 0 0 var(--mkdp-diff-add-bar);
+}
+
+/* hunk headers (@@ ... @@) and ---/+++ file lines inside diffs */
+.markdown-body pre code .hljs-meta {
+    color: #d2a8ff !important;
+    font-weight: 400 !important;
+}
+.markdown-body pre code .hljs-comment {
+    color: #8b949e !important;
+    font-style: italic;
+}
+
+/* ------------------------------------------------------------------ */
+/* 6. Dark-friendly syntax colors for regular code blocks              */
+/*    (the plugin's built-in github theme is light-oriented)           */
+/* ------------------------------------------------------------------ */
+.markdown-body pre.hljs .hljs-comment,
+.markdown-body pre.hljs .hljs-quote {
+    color: #8b949e !important;
+    font-style: italic;
+}
+.markdown-body pre.hljs .hljs-keyword,
+.markdown-body pre.hljs .hljs-selector-tag,
+.markdown-body pre.hljs .hljs-subst {
+    color: #ff7b72 !important;
+    font-weight: 400;
+}
+.markdown-body pre.hljs .hljs-number,
+.markdown-body pre.hljs .hljs-literal {
+    color: #79c0ff !important;
+}
+.markdown-body pre.hljs .hljs-string,
+.markdown-body pre.hljs .hljs-doctag,
+.markdown-body pre.hljs .hljs-regexp,
+.markdown-body pre.hljs .hljs-link {
+    color: #a5d6ff !important;
+}
+.markdown-body pre.hljs .hljs-title,
+.markdown-body pre.hljs .hljs-section,
+.markdown-body pre.hljs .hljs-selector-id,
+.markdown-body pre.hljs .hljs-name {
+    color: #d2a8ff !important;
+    font-weight: 600;
+}
+.markdown-body pre.hljs .hljs-type,
+.markdown-body pre.hljs .hljs-class .hljs-title,
+.markdown-body pre.hljs .hljs-selector-class {
+    color: #ffa657 !important;
+    font-weight: 600;
+}
+.markdown-body pre.hljs .hljs-built_in,
+.markdown-body pre.hljs .hljs-builtin-name,
+.markdown-body pre.hljs .hljs-symbol,
+.markdown-body pre.hljs .hljs-bullet,
+.markdown-body pre.hljs .hljs-attribute,
+.markdown-body pre.hljs .hljs-variable,
+.markdown-body pre.hljs .hljs-template-variable {
+    color: #79c0ff !important;
+}
+.markdown-body pre.hljs .hljs-tag {
+    color: #7ee787 !important;
+}
+.markdown-body pre.hljs .hljs-meta {
+    color: #d2a8ff !important;
+}
