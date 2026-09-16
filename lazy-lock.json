@@ -9,6 +9,7 @@
   "crates.nvim": { "branch": "main", "commit": "b8281be336498035f9288d6542b2881a7140a9ec" },
   "diffs.nvim": { "branch": "main", "commit": "f6567df7aee5ff3ec7e53a59e7f892ae3f9dcd02" },
   "fff.nvim": { "branch": "main", "commit": "7f8537e70f0ea1210f9acbbfc4640141105cdc78" },
+  "diffview.nvim": { "branch": "main", "commit": "4516612fe98ff56ae0415a259ff6361a89419b0a" },
   "fidget.nvim": { "branch": "main", "commit": "9e0201673e08e997e7cf52afca5565c70bd117f3" },
   "gitsigns": { "branch": "main", "commit": "f2421c550618d257048afa650413d9e542ddbe67" },
   "harpoon": { "branch": "harpoon2", "commit": "87b1a3506211538f460786c23f98ec63ad9af4e5" },
