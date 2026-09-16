@@ -19,7 +19,8 @@ return {
         },
         config = function()
             local lsp_keymaps = require('keshav.keymaps')
-            local capabilities = require('cmp_nvim_lsp').default_capabilities()
+            -- NOTE: blink.cmp adds the LSP capabilities itself,
+            -- no need for cmp_nvim_lsp here anymore
             local lsp_group =
                 vim.api.nvim_create_augroup('LspConfig', { clear = true })
 
@@ -53,9 +54,7 @@ return {
                 ensure_installed = servers,
             })
 
-            vim.lsp.config('*', {
-                capabilities = capabilities,
-            })
+            vim.lsp.config('*', {})
 
             -- Lua related config
             vim.lsp.config('lua_ls', {
@@ -152,7 +151,6 @@ return {
                 cmd = { 'taplo', 'lsp', 'stdio' },
                 filetypes = { 'toml' },
                 root_markers = { 'taplo.toml', '.taplo.toml', '*.toml', '.git' },
-                capabilities = capabilities,
             })
 
             vim.lsp.config('clangd', {
@@ -170,7 +168,6 @@ return {
                     completeUnimported = true,
                     clangdFileStatus = true,
                 },
-                capabilities = capabilities,
             })
 
             vim.lsp.config('nim_langserver', {
@@ -181,7 +178,6 @@ return {
                     '/home/keshav/.nimble/bin/nimlangserver',
                 },
                 root_markers = { 'config.nims', '.git', '.nimble' },
-                capabilities = capabilities,
                 settings = {
                     nim = {
                         nimsuggestPath = '/home/keshav/.nimble/bin/nimsuggest',
