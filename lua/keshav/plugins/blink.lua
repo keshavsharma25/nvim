@@ -12,10 +12,7 @@ return {
             preset = 'none',
             ['<C-n>'] = { 'select_next', 'fallback' },
             ['<C-p>'] = { 'select_prev', 'fallback' },
-            -- Accepts the selected item, or the first one if nothing is
-            -- selected (same as cmp.confirm({ select = true }))
             ['<CR>'] = { 'select_and_accept', 'fallback' },
-            ['<C-Space>'] = { 'show', 'fallback' },
         },
         completion = {
             -- preselect = false + auto_insert = true mirrors
@@ -58,41 +55,13 @@ return {
         cmdline = {
             keymap = {
                 preset = 'cmdline',
-                -- Only accept if the user explicitly selected an item via
-                -- <C-n>/<C-p>; otherwise execute the command as normal.
-                -- NOTE: in v1, keymap functions must signal fallback by
-                -- returning false/nil + listing 'fallback' as the next
-                -- command; there is no cmp.fallback() method on v1
+                ['<C-space>'] = { 'select_and_accept' },
                 ['<CR>'] = {
                     function(cmp)
                         if cmp.get_selected_item() then
                             return cmp.accept()
                         end
                         return false
-                    end,
-                    'fallback',
-                },
-                -- <Space>: only accept if the user explicitly selected an
-                -- item via <C-n>/<C-p>, then still type the space so
-                -- arguments can be added. Blink applies the accepted
-                -- text asynchronously, so the space must be fed from the
-                -- accept callback rather than typed first
-                ['<Space>'] = {
-                    function(cmp)
-                        if not cmp.get_selected_item() then
-                            return false -- just a normal space
-                        end
-                        return cmp.accept({
-                            callback = function()
-                                local space = vim.api.nvim_replace_termcodes(
-                                    ' ',
-                                    true,
-                                    false,
-                                    true
-                                )
-                                vim.api.nvim_feedkeys(space, 'n', false)
-                            end,
-                        })
                     end,
                     'fallback',
                 },
@@ -105,23 +74,6 @@ return {
                 },
             },
             sources = { 'path', 'cmdline' },
-        },
-    },
-    -- Only complete the command name once it is 3+ chars, so short commands
-    -- like `:q` / `:w` execute immediately instead of popping the menu
-    sources = {
-        providers = {
-            cmdline = {
-                min_keyword_length = function(ctx)
-                    if
-                        ctx.mode == 'cmdline'
-                        and string.find(ctx.line, ' ') == nil
-                    then
-                        return 3
-                    end
-                    return 0
-                end,
-            },
         },
     },
     opts_extend = { 'sources.default' },
