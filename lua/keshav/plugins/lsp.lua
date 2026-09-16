@@ -40,6 +40,7 @@ return {
             }
 
             local fmters = {
+                'asmfmt',
                 'prettierd',
                 'stylua',
                 'goimports',

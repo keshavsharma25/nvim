@@ -21,6 +21,7 @@ return {
             }
         end,
         formatters_by_ft = {
+            asm = { 'asmfmt' },
             c = { 'clang_format' },
             lua = { 'stylua' },
             go = { 'goimports', 'gofmt' },
