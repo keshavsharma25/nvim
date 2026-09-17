@@ -33,6 +33,7 @@ return {
                     'markdown',
                     'markdown_inline',
                     'nim',
+                    'nasm',
                 },
                 install_dir = vim.fn.stdpath('data'),
                 sync_install = false,
