@@ -34,6 +34,7 @@ return {
                     'markdown_inline',
                     'nim',
                     'nasm',
+                    'nginx',
                 },
                 install_dir = vim.fn.stdpath('data'),
                 sync_install = false,
