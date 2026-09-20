@@ -78,7 +78,23 @@ return {
             vim.lsp.config('jsonls', {
                 settings = {
                     json = {
-                        schemas = require('schemastore').json.schemas(),
+                        schemas = require('schemastore').json.schemas({
+                            extra = {
+                                {
+                                    name = 'gondolin.json',
+                                    description = 'pi Gondolin extension VM config',
+                                    fileMatch = {
+                                        '**/.pi/gondolin.json',
+                                        '**/extensions/gondolin/gondolin.json',
+                                        '**/extensions/gondolin/gondolin.example.json',
+                                    },
+                                    url = 'file://'
+                                        .. vim.fn.expand(
+                                            '~/.pi/agent/extensions/gondolin/schema.json'
+                                        ),
+                                },
+                            },
+                        }),
                         validate = { enable = true },
                     },
                 },
