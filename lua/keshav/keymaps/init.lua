@@ -512,37 +512,37 @@ function M.trouble()
     keyset(
         n,
         '<leader>tt',
-        '<cmd>Trouble diagnostics toggle win.position=right win.size=0.4<CR>',
+        '<cmd>Trouble diagnostics toggle win.position=bottom win.size=0.4<CR>',
         { desc = 'Diagnostics (Trouble)' }
     )
     keyset(
         n,
         '<leader>tT',
-        '<cmd>Trouble diagnostics toggle filter.buf=0 win.position=right win.size=0.4<CR>',
+        '<cmd>Trouble diagnostics toggle filter.buf=0 win.position=bottom win.size=0.4<CR>',
         { desc = 'Buffer Diagnostics (Trouble)' }
     )
     keyset(
         n,
         '<leader>ts',
-        '<cmd>Trouble symbols toggle focus=false win.position=right win.size=0.4<CR>',
+        '<cmd>Trouble symbols toggle focus=false win.position=bottom win.size=0.4<CR>',
         { desc = 'Symbols (Trouble)' }
     )
     keyset(
         n,
         '<leader>tl',
-        '<cmd>Trouble lsp toggle focus=false win.position=right win.size=0.4<CR>',
+        '<cmd>Trouble lsp toggle focus=false win.position=bottom win.size=0.4<CR>',
         { desc = 'LSP Definitions / references / ... (Trouble)' }
     )
     keyset(
         n,
         '<leader>tL',
-        '<cmd>Trouble loclist toggle win.position=right win.size=0.4<CR>',
+        '<cmd>Trouble loclist toggle win.position=bottom win.size=0.4<CR>',
         { desc = 'Location List (Trouble)' }
     )
     keyset(
         n,
         '<leader>tq',
-        '<cmd>Trouble qflist toggle win.position=right win.size=0.4<CR>',
+        '<cmd>Trouble qflist toggle win.position=bottom win.size=0.4<CR>',
         { desc = 'Quickfix List (Trouble)' }
     )
 end
