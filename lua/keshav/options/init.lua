@@ -21,6 +21,7 @@ vim.opt.timeoutlen = 300
 
 vim.opt.splitright = true
 vim.opt.splitbelow = true
+vim.opt.cpoptions:append('~')
 
 vim.opt.list = false
 

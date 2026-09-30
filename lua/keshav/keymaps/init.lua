@@ -23,7 +23,11 @@ function M.init()
     -- Diagnostic keysets
 
     -- Go to Parent Dir
-    keyset(n, '-', '<cmd>Oil<CR>', { desc = 'Go to Parent Directory' })
+    keyset(n, '-', function()
+        local dir = vim.w.oil_return_dir
+        vim.w.oil_return_dir = nil
+        require('oil').open(dir)
+    end, { desc = 'Go to Parent Directory' })
 
     keyset(n, '<leader>cc', function()
         -- Check if the column is currently set to 80
