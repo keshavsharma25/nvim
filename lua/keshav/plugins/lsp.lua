@@ -212,7 +212,7 @@ return {
             vim.lsp.enable(servers)
             vim.lsp.enable('taplo')
             vim.lsp.enable('clangd')
-            vim.lsp.enable('nim_langserver')
+            vim.lsp.enable('ocamllsp')
 
             local function setup_python(client)
                 -- Configure Python specific settings

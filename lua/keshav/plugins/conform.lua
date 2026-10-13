@@ -65,6 +65,7 @@ return {
             json = { 'biome', 'prettierd', stop_after_first = true },
             jsonc = { 'biome', 'prettierd', stop_after_first = true },
             markdown = { 'prettierd' },
+            ocaml = { 'ocamlformat' },
             toml = { 'taplo' },
             yaml = { 'yamlfmt' },
             ['*'] = { 'trim_whitespace' },
