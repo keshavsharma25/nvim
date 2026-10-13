@@ -1,3 +1,35 @@
+local function rustfmt_args(_, ctx)
+    local manifest = vim.fs.find('Cargo.toml', {
+        path = ctx.dirname,
+        upward = true,
+    })[1]
+    assert(manifest, 'No Cargo.toml found')
+
+    local result = vim.system({
+        'cargo',
+        'metadata',
+        '--no-deps',
+        '--format-version',
+        '1',
+        '--manifest-path',
+        manifest,
+    }, {
+        cwd = vim.fs.dirname(manifest),
+        text = true,
+    }):wait()
+    assert(result.code == 0, result.stderr)
+
+    for _, pkg in ipairs(vim.json.decode(result.stdout).packages) do
+        if
+            vim.fs.normalize(pkg.manifest_path) == vim.fs.normalize(manifest)
+        then
+            return { '--emit=stdout', '--edition=' .. pkg.edition }
+        end
+    end
+
+    error('Could not resolve Rust edition')
+end
+
 return {
     -- Autoformat
     'stevearc/conform.nvim',
@@ -34,10 +66,20 @@ return {
             jsonc = { 'biome', 'prettierd', stop_after_first = true },
             markdown = { 'prettierd' },
             toml = { 'taplo' },
-            yaml = { 'prettierd' },
+            yaml = { 'yamlfmt' },
             ['*'] = { 'trim_whitespace' },
         },
         formatters = {
+            rustfmt = {
+                command = 'rustfmt',
+                cwd = function(_, ctx)
+                    return vim.fs.root(ctx.dirname, {
+                        'rust-toolchain.toml',
+                        'rust-toolchain',
+                    })
+                end,
+                args = rustfmt_args,
+            },
             biome = {
                 require_cwd = true,
                 args = { 'format', '--stdin-file-path', '$FILENAME' },
