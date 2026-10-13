@@ -7,10 +7,12 @@ return {
     ft = { 'markdown', 'mermaid' },
     config = function()
         require('mdkite').setup({
-            port = 2999,
+            instance_mode = 'multi',
+            port = 0,
             host = '127.0.0.1',
             -- Rust is optional; use browser-side Mermaid until mmdr is installed.
-            mermaid_renderer = vim.fn.executable('mmdr') == 1 and 'rust' or 'js',
+            mermaid_renderer = vim.fn.executable('mmdr') == 1 and 'rust'
+                or 'js',
         })
     end,
 }
