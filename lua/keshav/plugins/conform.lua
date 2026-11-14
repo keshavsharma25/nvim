@@ -56,6 +56,7 @@ return {
             asm = { 'asmfmt' },
             c = { 'clang_format' },
             lua = { 'stylua' },
+            lean = { 'lean_fmt' },
             go = { 'goimports', 'gofmt' },
             rust = { 'rustfmt', lsp_format = 'fallback' },
             python = { 'ruff' },
@@ -71,6 +72,25 @@ return {
             ['*'] = { 'trim_whitespace' },
         },
         formatters = {
+            lean_fmt = {
+                command = 'lake',
+                args = {
+                    'exe',
+                    'lean-fmt',
+                    'format',
+                    '-',
+                    '--stdin-filename',
+                    '$FILENAME',
+                },
+                stdin = true,
+                cwd = function(_, ctx)
+                    return vim.fs.root(ctx.dirname, {
+                        'lakefile.lean',
+                        'lakefile.toml',
+                    })
+                end,
+                require_cwd = true,
+            },
             rustfmt = {
                 command = 'rustfmt',
                 cwd = function(_, ctx)
