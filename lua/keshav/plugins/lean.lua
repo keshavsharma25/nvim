@@ -5,17 +5,13 @@ return {
     init = function()
         ---@type lean.Config
         vim.g.lean_config = {
-            -- <LocalLeader> is Space k; keep Lean's standard buffer mappings.
             mappings = true,
             infoview = {
                 autoopen = true,
-                -- Beside the proof on wide screens, below it on narrow screens.
                 orientation = 'auto',
                 width = 50,
                 height = 12,
             },
-            -- LSP, Unicode abbreviations, widgets and progress bars use defaults.
-            -- Let lean.nvim manage leanls; do not also enable it through Mason.
         }
     end,
 
@@ -28,8 +24,24 @@ return {
             }),
             desc = 'Show the Lean infoview only while working in Lean',
             callback = function()
-                -- Wait until buffer/window transitions have finished.
+                local win = vim.api.nvim_get_current_win()
                 vim.schedule(function()
+                    if
+                        not vim.api.nvim_win_is_valid(win)
+                        or vim.api.nvim_get_current_win() ~= win
+                    then
+                        return
+                    end
+
+                    local config = vim.api.nvim_win_get_config(win)
+                    if
+                        config.relative ~= ''
+                        or config.external
+                        or vim.bo.buftype ~= ''
+                    then
+                        return
+                    end
+
                     local infoview = package.loaded['lean.infoview']
                     if not infoview then
                         return
