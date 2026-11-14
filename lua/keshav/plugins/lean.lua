@@ -20,6 +20,8 @@ return {
     end,
 
     config = function()
+        require('keshav.keymaps').lean()
+
         vim.api.nvim_create_autocmd({ 'BufEnter', 'WinEnter', 'FileType' }, {
             group = vim.api.nvim_create_augroup('LeanInfoviewVisibility', {
                 clear = true,

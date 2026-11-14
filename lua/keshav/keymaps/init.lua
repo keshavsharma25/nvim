@@ -176,6 +176,50 @@ function M.snacks()
     end, { desc = 'Prev Reference' })
 end
 
+function M.lean()
+    keyset(n, '<LocalLeader>a', function()
+        -- Lean's load() resolves this path relative to its caller.
+        -- Find the bundled table directly so external callers work too.
+        local path = vim.api.nvim_get_runtime_file(
+            'vscode-lean/abbreviations.json',
+            false
+        )[1]
+        if not path then
+            vim.notify('Lean abbreviation table not found', vim.log.levels.ERROR)
+            return
+        end
+        local abbreviations = vim.json.decode(
+            table.concat(vim.fn.readfile(path), '\n')
+        )
+        local items = {}
+
+        for abbreviation, symbol in pairs(abbreviations) do
+            table.insert(items, {
+                text = abbreviation .. ' ' .. symbol,
+                abbreviation = abbreviation,
+                symbol = symbol,
+            })
+        end
+
+        table.sort(items, function(a, b)
+            return a.abbreviation < b.abbreviation
+        end)
+
+        require('snacks.picker')({
+            title = 'Lean Unicode Abbreviations',
+            items = items,
+            format = 'text',
+            confirm = function(picker, item)
+                picker:close()
+                if item then
+                    vim.fn.setreg('+', item.symbol)
+                    vim.notify('Copied ' .. item.symbol .. ' to clipboard')
+                end
+            end,
+        })
+    end, { desc = 'Lean: search Unicode [A]bbreviations' })
+end
+
 function M.lsp(e)
     -- LSP Definition, Hover, etc..
     local opts = { buffer = e.buf }
