@@ -57,6 +57,43 @@ function M.snacks()
 
     keyset(n, '<leader>si', picker.git_files, { desc = '[S]earch [I]n Git' })
 
+    keyset(n, '<leader>sd', function()
+        local root = vim.fs.root(0, '.git')
+        if not root then
+            vim.notify('No Git repository found for the current buffer', vim.log.levels.WARN)
+            return
+        end
+
+        local dirs = {}
+        local scan = vim.uv.fs_scandir(root)
+        if not scan then
+            vim.notify('Unable to read repository root: ' .. root, vim.log.levels.WARN)
+            return
+        end
+
+        while true do
+            local name, kind = vim.uv.fs_scandir_next(scan)
+            if not name then
+                break
+            end
+            if kind == 'directory' and name ~= '.git' then
+                dirs[#dirs + 1] = name
+            end
+        end
+        table.sort(dirs)
+
+        if #dirs == 0 then
+            vim.notify('No folders found in ' .. root)
+            return
+        end
+
+        vim.ui.select(dirs, { prompt = 'Search folder in ' .. root }, function(dir)
+            if dir then
+                fff.find_files_in_dir(vim.fs.joinpath(root, dir))
+            end
+        end)
+    end, { desc = '[S]earch [D]irectory' })
+
     keyset(
         n,
         '<leader>ss',
@@ -77,7 +114,7 @@ function M.snacks()
 
     keyset(
         n,
-        '<leader>sd',
+        '<leader>sD',
         picker.diagnostics,
         { desc = '[S]earch [D]iagnostics' }
     )
