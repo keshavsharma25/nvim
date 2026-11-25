@@ -12,6 +12,9 @@ vim.opt.breakindent = true
 
 vim.opt.undofile = true
 
+vim.opt.backup = false
+vim.opt.writebackup = false
+
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.signcolumn = 'yes'
